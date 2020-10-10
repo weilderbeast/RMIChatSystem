@@ -14,7 +14,7 @@
             <Label layoutX="34.0" layoutY="21.0" styleClass="connected-header" text="Connected Users" />
             <AnchorPane layoutY="67.0" prefHeight="618.0" prefWidth="218.0">
                <children>
-                  <VBox prefHeight="618.0" prefWidth="218.0" />
+                  <VBox fx:id="connectedUsersVBox" prefHeight="618.0" prefWidth="218.0" />
                </children>
             </AnchorPane>
          </children>
@@ -34,7 +34,7 @@
                </children></AnchorPane>
             <AnchorPane layoutY="69.0" prefHeight="618.0" prefWidth="728.0">
                <children>
-                  <VBox prefHeight="618.0" prefWidth="728.0" />
+                  <VBox fx:id="chatVBox" prefHeight="618.0" prefWidth="728.0" />
                </children>
             </AnchorPane>
          </children>

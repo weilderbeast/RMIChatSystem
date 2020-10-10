@@ -49,20 +49,7 @@ public class SocketClient implements Client {
 
     public void sendToServer(Request request) {
         try {
-            if (request.getObject() instanceof Message) {
-                Message message = (Message) request.getObject();
-                System.out.println(
-                        "Sending request: "+request.getType()+
-                                " || Message: "+message.getMessageBody()
-                );
-            } else {
-                System.out.println(
-                        "Sending request: "+request.getType()+
-                                " || Nickname: "+request.getObject()
-                );
-            }
             outputStream.writeObject(request);
-            System.out.println("Sent request to server.");
         } catch (IOException e) {
             e.printStackTrace();
         }

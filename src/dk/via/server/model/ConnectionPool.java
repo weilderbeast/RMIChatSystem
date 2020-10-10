@@ -19,12 +19,11 @@ public class ConnectionPool implements Subject {
     }
 
     public void broadcast(Request request) {
-        System.out.println("broadcasting "+request.getObject());
-        support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, request);
+        support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL,request.getObject()));
     }
 
     public void sendPrivate(Request request) {
-        support.firePropertyChange(UserAction.RECEIVE.toString(), null, request);
+        support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE,request.getObject()));
     }
 
     public void addUser(String nickname) {
@@ -45,5 +44,9 @@ public class ConnectionPool implements Subject {
     public void removeListener(String eventName,
                                PropertyChangeListener listener) {
         support.removePropertyChangeListener(eventName, listener);
+    }
+
+    public void getUserList() {
+        support.firePropertyChange(UserAction.USER_LIST.toString(),null, new Request(UserAction.USER_LIST,userList));
     }
 }

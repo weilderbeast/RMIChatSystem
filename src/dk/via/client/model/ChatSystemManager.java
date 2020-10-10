@@ -42,7 +42,8 @@ public class ChatSystemManager implements ChatSystem {
     }
 
     private void onReceiveUserList(PropertyChangeEvent propertyChangeEvent) {
-        userList = (UserList) propertyChangeEvent.getNewValue();
+        Request request = (Request) propertyChangeEvent.getNewValue();
+        userList = (UserList) request.getObject();
         support.firePropertyChange(propertyChangeEvent);
     }
 

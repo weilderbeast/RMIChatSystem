@@ -17,4 +17,5 @@ public class UserList implements Serializable {
     public void removeUser(String nickname){
         users.remove(nickname);
     }
+    public ArrayList<String> getUsers(){ return users;}
 }

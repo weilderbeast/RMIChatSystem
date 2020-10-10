@@ -3,6 +3,7 @@ package dk.via.server.networking;
 import dk.via.server.model.ConnectionPool;
 import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
+import dk.via.shared.transfer.UserList;
 import dk.via.shared.utils.UserAction;
 
 import java.beans.PropertyChangeEvent;
@@ -24,8 +25,11 @@ public class SocketHandler implements Runnable {
         this.socket = socket;
         this.connectionPool = connectionPool;
 
-        connectionPool.addListener(UserAction.SEND_ALL.toString(), this::sendAll);
-        connectionPool.addListener(UserAction.SEND.toString(), this::send);
+        connectionPool.addListener(UserAction.SEND_ALL.toString(), this::sendToClient);
+        connectionPool.addListener(UserAction.SEND.toString(), this::sendToClient);
+        connectionPool.addListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
+        connectionPool.addListener(UserAction.RECEIVE.toString(), this::sendToClient);
+        connectionPool.addListener(UserAction.USER_LIST.toString(), this::sendToClient);
 
         try {
             outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -40,7 +44,6 @@ public class SocketHandler implements Runnable {
         while(true){
         try {
             Request request = (Request) inputStream.readObject();
-            System.out.println("Request type: "+request.getType());
             switch (request.getType()) {
                 case SEND:
                     connectionPool.sendPrivate(request);
@@ -53,12 +56,13 @@ public class SocketHandler implements Runnable {
                 case LOGIN:
                     nickname = (String)request.getObject();
                     System.out.println(nickname+" connected.");
-                    //connectionPool.addUser(nickname);
+                    connectionPool.addUser(nickname);
+                    connectionPool.getUserList();
                     break;
                 case DISCONNECT:
                     connectionPool.removeUser(nickname);
-                    connectionPool.removeListener(UserAction.SEND_ALL.toString(),this::sendAll);
-                    connectionPool.removeListener(UserAction.SEND.toString(), this::send);
+                    connectionPool.removeListener(UserAction.SEND_ALL.toString(),this::sendToClient);
+                    connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
                     System.out.println(nickname+" disconnected.");
                     //socket.close();
                     break;
@@ -69,7 +73,7 @@ public class SocketHandler implements Runnable {
         }
     }
 
-    private void send(PropertyChangeEvent evt) {
+    private void sendToClient(PropertyChangeEvent evt) {
         try {
             Request request = (Request) evt.getNewValue();
             outputStream.writeObject(request);
@@ -78,12 +82,4 @@ public class SocketHandler implements Runnable {
         }
     }
 
-    private void sendAll(PropertyChangeEvent evt) {
-        try {
-            Request request = (Request) evt.getNewValue();
-            outputStream.writeObject(request);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
