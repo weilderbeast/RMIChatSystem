@@ -8,26 +8,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class MainViewController
-{
-  private MainViewModel viewModel;
-  private ViewHandler viewHandler;
+public class MainViewController {
+    private MainViewModel viewModel;
+    private ViewHandler viewHandler;
 
-  @FXML private TextField textField;
+    @FXML
+    private TextField textField;
 
-  public void init(MainViewModel mainViewModel, ViewHandler viewHandler)
-  {
-    viewModel = mainViewModel;
-    this.viewHandler = viewHandler;
-    textField.textProperty().bindBidirectional(viewModel.getSentText());
-  }
+    public void init(MainViewModel mainViewModel, ViewHandler viewHandler) {
+        viewModel = mainViewModel;
+        this.viewHandler = viewHandler;
+        textField.textProperty().bindBidirectional(viewModel.getSentText());
+    }
 
-  public void sendGroupMessage(ActionEvent actionEvent)
-  {
-    viewModel.sendGroupMessage();
-  }
+    public void sendGroupMessage(ActionEvent actionEvent) {
+        viewModel.sendGroupMessage();
+    }
 
-  //first make it into console
+    public void onReceiveMessage() {
 
-  //use a scrollpane with vbox
+    }
 }

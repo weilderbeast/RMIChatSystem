@@ -3,69 +3,79 @@ package dk.via.client.model;
 import dk.via.client.network.Client;
 import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
+import dk.via.shared.transfer.UserList;
 import dk.via.shared.utils.UserAction;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class ChatSystemManager implements ChatSystem
-{
-  private PropertyChangeSupport support;
-  private Client client;
-  private String nickname;
+public class ChatSystemManager implements ChatSystem {
+    private PropertyChangeSupport support;
+    private Client client;
+    private String nickname;
+    private UserList userList;
 
-  public ChatSystemManager(Client client)
-  {
-    this.client = client;
-    client.startClient();
-    client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveMessage);
-    client.addListener(UserAction.RECEIVE.toString(), this::onReceiveDirectMessage);
+    public ChatSystemManager(Client client) {
+        this.client = client;
 
-    support = new PropertyChangeSupport(this);
-  }
+        client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveMessage);
+        client.addListener(UserAction.RECEIVE.toString(), this::onReceiveDirectMessage);
 
-  private void onReceiveDirectMessage(PropertyChangeEvent propertyChangeEvent)
-  {
-    Message message = (Message) propertyChangeEvent.getNewValue();
-    if(message.getMessageReceiver().equals(nickname))
-    support.firePropertyChange(propertyChangeEvent);
-  }
+        client.addListener(UserAction.USER_LIST.toString(), this::onReceiveUserList);
 
-  private void onReceiveMessage(PropertyChangeEvent propertyChangeEvent)
-  {
-    Message message = (Message) propertyChangeEvent.getNewValue();
-    if(!message.getMessageSender().equals(nickname))
-    support.firePropertyChange(propertyChangeEvent);
-  }
+        userList = new UserList();
 
-  @Override public void addListener(String eventName,
-      PropertyChangeListener listener)
-  {
-    support.addPropertyChangeListener(eventName, listener);
-  }
+        support = new PropertyChangeSupport(this);
+    }
 
-  @Override public void removeListener(String eventName,
-      PropertyChangeListener listener)
-  {
-    support.removePropertyChangeListener(eventName, listener);
-  }
+    public void startClient(String nickname)
+    {
+        client.startClient();
+        client.sendToServer(new Request(UserAction.LOGIN,nickname));
+    }
 
-  @Override public void sendGroupMessage(String text)
-  {
-    Message message = new Message(nickname,text);
-    System.out.println("sending to server from: "+nickname+" the text: "+text);
-    client.sendToServer(new Request(UserAction.SEND_ALL,message));
-  }
+    private void onReceiveUserList(PropertyChangeEvent propertyChangeEvent) {
+        userList = (UserList) propertyChangeEvent.getNewValue();
+        support.firePropertyChange(propertyChangeEvent);
+    }
 
-  @Override public void sendPrivateMessage()
-  {
+    //TODO have these checks in the server side (create your own propertyChangeEvent in server)
+    private void onReceiveDirectMessage(PropertyChangeEvent propertyChangeEvent) {
+        Request request = (Request) propertyChangeEvent.getNewValue();
+        Message message = (Message) request.getObject();
+        if (message.getMessageReceiver().equals(nickname))
+            support.firePropertyChange(propertyChangeEvent);
+    }
 
-  }
+    //TODO have these checks in the server side (create your own propertyChangeEvent in server)
+    private void onReceiveMessage(PropertyChangeEvent propertyChangeEvent) {
+        Request request = (Request) propertyChangeEvent.getNewValue();
+        Message message = (Message) request.getObject();
+        if (!message.getMessageSender().equals(nickname))
+            support.firePropertyChange(propertyChangeEvent);
+    }
 
-  @Override public void setNickname(String nickname)
-  {
-    this.nickname = nickname;
-    System.out.println("nickname in chatsysmanager: "+nickname);
-  }
+    @Override
+    public void addListener(String eventName,
+                            PropertyChangeListener listener) {
+        support.addPropertyChangeListener(eventName, listener);
+    }
+
+    @Override
+    public void removeListener(String eventName,
+                               PropertyChangeListener listener) {
+        support.removePropertyChangeListener(eventName, listener);
+    }
+
+    @Override
+    public void sendGroupMessage(String text) {
+        Message message = new Message(nickname, text);
+        client.sendToServer(new Request(UserAction.SEND_ALL, message));
+    }
+
+    @Override
+    public void sendPrivateMessage() {
+
+    }
 }

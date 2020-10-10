@@ -5,5 +5,7 @@ public enum UserAction
   SEND,
   RECEIVE,
   SEND_ALL,
-  RECEIVE_ALL
+  RECEIVE_ALL,
+  USER_LIST,
+  LOGIN
 }

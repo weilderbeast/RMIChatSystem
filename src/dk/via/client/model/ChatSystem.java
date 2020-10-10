@@ -7,5 +7,5 @@ public interface ChatSystem extends Subject
 {
   void sendGroupMessage(String text);
   void sendPrivateMessage();
-  void setNickname(String nickname);
+  void startClient(String nickname);
 }
