@@ -19,6 +19,7 @@ public class ConnectionPool implements Subject {
     }
 
     public void broadcast(Request request) {
+        System.out.println("broadcasting "+request.getObject());
         support.firePropertyChange(UserAction.SEND_ALL.toString(), null, request);
     }
 

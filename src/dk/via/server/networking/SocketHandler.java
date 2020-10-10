@@ -44,9 +44,9 @@ public class SocketHandler implements Runnable {
                     connectionPool.sendPrivate(request);
                     break;
                 case SEND_ALL:
-                    connectionPool.broadcast(request);
                     Message message = (Message) request.getObject();
                     System.out.println(message.getMessageSender()+": "+message.getMessageBody());
+                    connectionPool.broadcast(request);
                     break;
                 case LOGIN:
                     nickname = (String)request.getObject();
@@ -54,9 +54,7 @@ public class SocketHandler implements Runnable {
                     connectionPool.addUser(nickname);
                     break;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

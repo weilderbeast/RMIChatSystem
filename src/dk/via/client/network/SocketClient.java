@@ -1,5 +1,6 @@
 package dk.via.client.network;
 
+import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
 
 import java.beans.PropertyChangeListener;
@@ -47,6 +48,19 @@ public class SocketClient implements Client {
 
     public void sendToServer(Request request) {
         try {
+            if (request.getObject() instanceof Message) {
+                Message message = (Message) request.getObject();
+                System.out.println(
+                        "Request: "+request.getType()+
+                                " || Message: "+message.getMessageBody()
+                );
+            } else {
+                System.out.println(
+                        "Request: "+request.getType()+
+                                " || Nickname: "+request.getObject()
+                );
+            }
+
             outputStream.writeObject(request);
         } catch (IOException e) {
             e.printStackTrace();
