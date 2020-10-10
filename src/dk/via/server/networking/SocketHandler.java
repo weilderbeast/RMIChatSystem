@@ -39,6 +39,7 @@ public class SocketHandler implements Runnable {
     public void run() {
         try {
             Request request = (Request) inputStream.readObject();
+            System.out.println("Request type: "+request.getType());
             switch (request.getType()) {
                 case SEND:
                     connectionPool.sendPrivate(request);
@@ -51,7 +52,14 @@ public class SocketHandler implements Runnable {
                 case LOGIN:
                     nickname = (String)request.getObject();
                     System.out.println(nickname+" connected.");
-                    connectionPool.addUser(nickname);
+                    //connectionPool.addUser(nickname);
+                    break;
+                case DISCONNECT:
+                    connectionPool.removeUser(nickname);
+                    connectionPool.removeListener(UserAction.SEND_ALL.toString(),this::sendAll);
+                    connectionPool.removeListener(UserAction.SEND.toString(), this::send);
+                    System.out.println(nickname+" disconnected.");
+                    socket.close();
                     break;
             }
         } catch (IOException | ClassNotFoundException e) {

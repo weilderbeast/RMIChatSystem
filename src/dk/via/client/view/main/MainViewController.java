@@ -25,6 +25,10 @@ public class MainViewController {
         viewModel.sendGroupMessage();
     }
 
+    public void disconnect(){
+        viewModel.disconnect();
+    }
+
     public void onReceiveMessage() {
 
     }

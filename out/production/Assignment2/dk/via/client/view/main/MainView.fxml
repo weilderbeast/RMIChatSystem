@@ -10,7 +10,7 @@
    <children>
       <AnchorPane prefHeight="756.0" prefWidth="218.0" styleClass="connected-tab" stylesheets="@../style.css">
          <children>
-            <Button layoutX="50.0" layoutY="705.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="119.0" styleClass="disconnect-button" text="Disconnect" />
+            <Button layoutX="50.0" layoutY="705.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="37.0" prefWidth="119.0" styleClass="disconnect-button" text="Disconnect" />
             <Label layoutX="34.0" layoutY="21.0" styleClass="connected-header" text="Connected Users" />
             <AnchorPane layoutY="67.0" prefHeight="618.0" prefWidth="218.0">
                <children>

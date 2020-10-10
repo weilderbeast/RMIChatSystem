@@ -20,11 +20,11 @@ public class ConnectionPool implements Subject {
 
     public void broadcast(Request request) {
         System.out.println("broadcasting "+request.getObject());
-        support.firePropertyChange(UserAction.SEND_ALL.toString(), null, request);
+        support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, request);
     }
 
     public void sendPrivate(Request request) {
-        support.firePropertyChange(UserAction.SEND.toString(), null, request);
+        support.firePropertyChange(UserAction.RECEIVE.toString(), null, request);
     }
 
     public void addUser(String nickname) {

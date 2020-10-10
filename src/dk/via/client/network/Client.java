@@ -7,4 +7,5 @@ public interface Client extends Subject
 {
   void startClient();
   void sendToServer(Request request);
+  void disconnect();
 }

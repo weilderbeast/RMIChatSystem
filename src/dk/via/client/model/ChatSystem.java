@@ -8,4 +8,5 @@ public interface ChatSystem extends Subject
   void sendGroupMessage(String text);
   void sendPrivateMessage();
   void startClient(String nickname);
+  void disconnect();
 }

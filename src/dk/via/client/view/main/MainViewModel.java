@@ -49,4 +49,8 @@ public class MainViewModel {
     public void sendGroupMessage() {
         chatSystem.sendGroupMessage(sentText.get());
     }
+
+    public void disconnect() {
+        chatSystem.disconnect();
+    }
 }

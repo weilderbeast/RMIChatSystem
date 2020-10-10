@@ -33,6 +33,12 @@ public class ChatSystemManager implements ChatSystem {
     {
         client.startClient();
         client.sendToServer(new Request(UserAction.LOGIN,nickname));
+        this.nickname = nickname;
+    }
+
+    @Override
+    public void disconnect() {
+        client.disconnect();
     }
 
     private void onReceiveUserList(PropertyChangeEvent propertyChangeEvent) {

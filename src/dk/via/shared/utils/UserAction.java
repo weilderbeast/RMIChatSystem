@@ -7,5 +7,6 @@ public enum UserAction
   SEND_ALL,
   RECEIVE_ALL,
   USER_LIST,
-  LOGIN
+  LOGIN,
+  DISCONNECT
 }
