@@ -37,6 +37,7 @@ public class SocketHandler implements Runnable {
 
     @Override
     public void run() {
+        while(true){
         try {
             Request request = (Request) inputStream.readObject();
             System.out.println("Request type: "+request.getType());
@@ -59,11 +60,12 @@ public class SocketHandler implements Runnable {
                     connectionPool.removeListener(UserAction.SEND_ALL.toString(),this::sendAll);
                     connectionPool.removeListener(UserAction.SEND.toString(), this::send);
                     System.out.println(nickname+" disconnected.");
-                    socket.close();
+                    //socket.close();
                     break;
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
         }
     }
 
