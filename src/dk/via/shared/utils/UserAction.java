@@ -8,5 +8,6 @@ public enum UserAction
   RECEIVE_ALL,
   USER_LIST,
   LOGIN,
-  DISCONNECT
+  DISCONNECT,
+  TEXT
 }

@@ -10,6 +10,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,19 +29,17 @@ public class MainViewController {
     private VBox chatVBox;
     @FXML
     private VBox connectedUsersVBox;
+    @FXML
+    private ScrollPane chatScrollPane;
 
     public void init(MainViewModel mainViewModel, ViewHandler viewHandler) {
         viewModel = mainViewModel;
         this.viewHandler = viewHandler;
         textField.textProperty().bindBidirectional(viewModel.getSentText());
+        chatVBox.setSpacing(15);
 
-//        connectedUsersVBox.accessibleTextProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-//                if(t1 == null) return;
-//
-//            }
-//        });
+        viewModel.addListener(UserAction.TEXT.toString(), event -> updateGeneralChat(event));
+
     }
 
     public void sendGroupMessage(ActionEvent actionEvent) {
@@ -51,13 +50,15 @@ public class MainViewController {
         viewModel.disconnect();
     }
 
+    public void updateGeneralChat(PropertyChangeEvent event){
+        Platform.runLater(() -> {
+            chatVBox.getChildren().add((HBox) event.getNewValue());
+        });
+    }
+
     public void updateUsersList(PropertyChangeEvent event) {
         Platform.runLater(() -> {
 
         });
-    }
-
-    public void onReceiveMessage() {
-
     }
 }

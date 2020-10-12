@@ -21,7 +21,6 @@ public class ChatSystemManager implements ChatSystem {
 
         client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveMessage);
         client.addListener(UserAction.RECEIVE.toString(), this::onReceiveDirectMessage);
-
         client.addListener(UserAction.USER_LIST.toString(), this::onReceiveUserList);
 
         userList = new UserList();
@@ -29,10 +28,9 @@ public class ChatSystemManager implements ChatSystem {
         support = new PropertyChangeSupport(this);
     }
 
-    public void startClient(String nickname)
-    {
+    public void startClient(String nickname) {
         client.startClient();
-        client.sendToServer(new Request(UserAction.LOGIN,nickname));
+        client.sendToServer(new Request(UserAction.LOGIN, nickname));
         this.nickname = nickname;
     }
 
@@ -82,7 +80,8 @@ public class ChatSystemManager implements ChatSystem {
     }
 
     @Override
-    public void sendPrivateMessage() {
-
+    public void sendPrivateMessage(String text, String destination) {
+        Message message = new Message(nickname, text, destination);
+        client.sendToServer(new Request(UserAction.SEND, message));
     }
 }

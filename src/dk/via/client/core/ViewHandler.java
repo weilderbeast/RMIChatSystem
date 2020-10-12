@@ -4,6 +4,7 @@ import dk.via.client.view.login.LoginViewController;
 import dk.via.client.view.main.MainViewController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
@@ -52,7 +53,8 @@ public class ViewHandler {
         }
 
         scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("..\\view\\style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("..\\view\\style\\style.css").toExternalForm());
+        Font.loadFont(getClass().getResourceAsStream("..\\view\\style\\Roboto-Regular.ttf"),16);
         stage.setScene(scene);
         stage.show();
     }

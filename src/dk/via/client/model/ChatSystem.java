@@ -6,7 +6,7 @@ import dk.via.shared.utils.Subject;
 public interface ChatSystem extends Subject
 {
   void sendGroupMessage(String text);
-  void sendPrivateMessage();
+  void sendPrivateMessage(String text, String destination);
   void startClient(String nickname);
   void disconnect();
 }

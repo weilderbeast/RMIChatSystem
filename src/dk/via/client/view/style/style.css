@@ -1,0 +1,138 @@
+/* chat styling */
+.connected-tab {
+    -fx-background-color: #7a7a7a;
+}
+
+.connected-header {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+
+.connected-list {
+    -fx-background-color: transparent;
+}
+
+.connected-list .list-cell:focused {
+    -fx-background-color: #4d4d4d;
+}
+
+.connected-list .list-cell:filled:hover {
+    -fx-background-color: #6e6e6e;
+}
+
+
+.input-tab {
+    -fx-background-color: #808080;
+}
+
+.input-field {
+    -fx-background-color: #5e5e5e;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+
+.chat-tab {
+    -fx-background-color: #4d4d4d;
+}
+
+.chat-header {
+    -fx-background-color: #808080;
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+
+.chat-list {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport{
+    -fx-background-color: transparent;
+}
+.scroll-pane{
+    -fx-background-color: transparent;
+}
+.chat-vbox{
+    -fx-padding: 15px;
+}
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color: transparent;
+}
+
+.chat-list .list-cell:odd {
+
+}
+
+.chat-message-label-sent {
+    -fx-background-color: #164d6b;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 15px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-max-width: 200px;
+}
+
+.chat-message-label-received {
+    -fx-background-color: #93b0bf;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 15px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-max-width: 200px;
+}
+.white{
+    -fx-text-fill: white;
+}
+
+.disconnect-button {
+    -fx-background-color: #4d4d4d;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.send-button {
+    -fx-background-color: #4d4d4d;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+/* login styling */
+.login-main {
+    -fx-background-color: #808080;
+}
+
+.login-inner {
+    -fx-background-color: #4d4d4d;
+}
+
+.login-header {
+    -fx-font-size: 50px;
+    -fx-text-fill: white;
+}
+
+.login-help-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+}
+
+.login-input {
+    -fx-background-color: transparent;
+    -fx-border-color: #808080;
+    -fx-border-width: 3;
+    -fx-border-style: hidden none solid none;
+    -fx-transition: .2s;
+}
+
+.login-input:focused {
+    -fx-border-color: white;
+}
+
+.login-button {
+    -fx-background-color: #808080;
+    -fx-text-fill: white;
+    -fx-background-radius: 0;
+}
