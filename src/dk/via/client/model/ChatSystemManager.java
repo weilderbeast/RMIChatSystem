@@ -3,7 +3,6 @@ package dk.via.client.model;
 import dk.via.client.network.Client;
 import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
-import dk.via.shared.transfer.UserList;
 import dk.via.shared.utils.UserAction;
 
 import java.beans.PropertyChangeEvent;
@@ -14,7 +13,6 @@ public class ChatSystemManager implements ChatSystem {
     private PropertyChangeSupport support;
     private Client client;
     private String nickname;
-    private UserList userList;
 
     public ChatSystemManager(Client client) {
         this.client = client;
@@ -22,8 +20,6 @@ public class ChatSystemManager implements ChatSystem {
         client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveMessage);
         client.addListener(UserAction.RECEIVE.toString(), this::onReceiveDirectMessage);
         client.addListener(UserAction.USER_LIST.toString(), this::onReceiveUserList);
-
-        userList = new UserList();
 
         support = new PropertyChangeSupport(this);
     }
@@ -40,8 +36,6 @@ public class ChatSystemManager implements ChatSystem {
     }
 
     private void onReceiveUserList(PropertyChangeEvent propertyChangeEvent) {
-        Request request = (Request) propertyChangeEvent.getNewValue();
-        userList = (UserList) request.getObject();
         support.firePropertyChange(propertyChangeEvent);
     }
 

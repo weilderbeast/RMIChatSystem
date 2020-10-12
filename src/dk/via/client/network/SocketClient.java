@@ -1,6 +1,5 @@
 package dk.via.client.network;
 
-import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
 import dk.via.shared.utils.UserAction;
 
@@ -10,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SocketClient implements Client {
     private PropertyChangeSupport support;
@@ -38,6 +38,10 @@ public class SocketClient implements Client {
         try {
             while (true) {
                 Request request = (Request) inputStream.readObject();
+                if(request.getType().equals(UserAction.USER_LIST)) {
+                    ArrayList<String> users = (ArrayList<String>) request.getObject();
+                    System.out.println("User list received from server: "+users.toString());
+                }
                 support.firePropertyChange(request.getType().toString(), null, request);
             }
         } catch (IOException e) {

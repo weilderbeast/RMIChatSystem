@@ -31,7 +31,7 @@
                <children>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="618.0" prefWidth="728.0" vbarPolicy="NEVER">
                      <content>
-                        <VBox fx:id="chatVBox" prefHeight="618.0" prefWidth="728.0" styleClass="chat-vbox" />
+                        <VBox fx:id="chatVBox" prefHeight="605.0" prefWidth="728.0" styleClass="chat-vbox" />
                      </content>
                   </ScrollPane>
                </children>

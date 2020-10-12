@@ -44,6 +44,7 @@ public class MainViewController {
 
     public void sendGroupMessage(ActionEvent actionEvent) {
         viewModel.sendGroupMessage();
+        textField.clear();
     }
 
     public void disconnect() {
@@ -52,7 +53,7 @@ public class MainViewController {
 
     public void updateGeneralChat(PropertyChangeEvent event){
         Platform.runLater(() -> {
-            chatVBox.getChildren().add((HBox) event.getNewValue());
+            chatVBox.getChildren().add((VBox) event.getNewValue());
         });
     }
 

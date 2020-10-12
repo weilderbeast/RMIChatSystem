@@ -17,7 +17,6 @@ public class SocketServer {
     public void startServer() {
         try {
             ServerSocket welcomeSocket = new ServerSocket(6969);
-            ConnectionPool connectionPool = new ConnectionPool();
 
             while (true) {
                 Socket socket = welcomeSocket.accept();

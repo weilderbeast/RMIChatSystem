@@ -1,21 +1,20 @@
 package dk.via.server.model;
 
 import dk.via.shared.transfer.Request;
-import dk.via.shared.transfer.UserList;
 import dk.via.shared.utils.Subject;
 import dk.via.shared.utils.UserAction;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class ConnectionPool implements Subject {
     private PropertyChangeSupport support;
-    private UserList userList;
+    private ArrayList<String> userList;
 
     public ConnectionPool() {
         support = new PropertyChangeSupport(this);
-        userList = new UserList();
+        userList = new ArrayList<>();
     }
 
     public void broadcast(Request request) {
@@ -27,11 +26,11 @@ public class ConnectionPool implements Subject {
     }
 
     public void addUser(String nickname) {
-        userList.addUser(nickname);
+        userList.add(nickname);
     }
 
     public void removeUser(String nickname) {
-        userList.removeUser(nickname);
+        userList.remove(nickname);
     }
 
     @Override
@@ -47,6 +46,6 @@ public class ConnectionPool implements Subject {
     }
 
     public void getUserList() {
-        support.firePropertyChange(UserAction.USER_LIST.toString(),null, new Request(UserAction.USER_LIST,userList));
+        support.firePropertyChange(UserAction.USER_LIST.toString(),null, new Request(UserAction.USER_LIST,new ArrayList<>(userList)));
     }
 }

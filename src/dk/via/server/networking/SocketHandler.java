@@ -3,7 +3,6 @@ package dk.via.server.networking;
 import dk.via.server.model.ConnectionPool;
 import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
-import dk.via.shared.transfer.UserList;
 import dk.via.shared.utils.UserAction;
 
 import java.beans.PropertyChangeEvent;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class SocketHandler implements Runnable {
     private Socket socket;
@@ -76,6 +76,10 @@ public class SocketHandler implements Runnable {
     private void sendToClient(PropertyChangeEvent evt) {
         try {
             Request request = (Request) evt.getNewValue();
+            if(request.getType().equals(UserAction.USER_LIST)) {
+                ArrayList<String> users = (ArrayList<String>) request.getObject();
+                System.out.println("Current user list: "+users.toString());
+            }
             outputStream.writeObject(request);
         } catch (IOException e) {
             e.printStackTrace();
