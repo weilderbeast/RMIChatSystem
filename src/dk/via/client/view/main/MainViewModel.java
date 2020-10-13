@@ -22,14 +22,12 @@ import java.util.ArrayList;
 public class MainViewModel implements Subject {
     private final ChatSystem chatSystem;
     private final StringProperty sentText;
-    private final ArrayList<String> onlineUsers;
     private final PropertyChangeSupport support;
 
     public MainViewModel(ChatSystem chatSystem) {
         this.chatSystem = chatSystem;
 
         sentText = new SimpleStringProperty();
-        onlineUsers = new ArrayList<>();
 
         this.chatSystem.addListener(UserAction.RECEIVE_ALL.toString(), this::onGroupMessage);
         this.chatSystem.addListener(UserAction.RECEIVE.toString(), this::onPrivateMessage);
@@ -42,11 +40,7 @@ public class MainViewModel implements Subject {
         Request request = (Request) propertyChangeEvent.getNewValue();
         ArrayList<String> users = (ArrayList<String>) request.getObject();
         System.out.println("Received user list: " + users.toString());
-        onlineUsers.clear();
-        for (String user : users) {
-            onlineUsers.add(user);
-        }
-        support.firePropertyChange(UserAction.USER_LIST.toString(), null, onlineUsers);
+        support.firePropertyChange(UserAction.USER_LIST.toString(), null, users);
     }
 
     public StringProperty getSentText() {
