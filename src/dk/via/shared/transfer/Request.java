@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 public class Request implements Serializable
 {
-  private UserAction type;
-  private Object object;
+  private final UserAction type;
+  private final Object object;
 
   public Request(UserAction type, Object object) {
     this.type = type;

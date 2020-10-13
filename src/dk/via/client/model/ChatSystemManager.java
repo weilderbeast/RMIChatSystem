@@ -10,8 +10,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class ChatSystemManager implements ChatSystem {
-    private PropertyChangeSupport support;
-    private Client client;
+    private final PropertyChangeSupport support;
+    private final Client client;
     private String nickname;
 
     public ChatSystemManager(Client client) {
@@ -30,29 +30,23 @@ public class ChatSystemManager implements ChatSystem {
         this.nickname = nickname;
     }
 
-    @Override
-    public void disconnect() {
-        client.disconnect();
-    }
-
     private void onReceiveUserList(PropertyChangeEvent propertyChangeEvent) {
+        Request request = (Request) propertyChangeEvent.getNewValue();
+        System.out.println(request.getType()+" event fired with "+request.getObject());
         support.firePropertyChange(propertyChangeEvent);
     }
 
-    //TODO have these checks in the server side (create your own propertyChangeEvent in server)
     private void onReceiveDirectMessage(PropertyChangeEvent propertyChangeEvent) {
-        Request request = (Request) propertyChangeEvent.getNewValue();
-        Message message = (Message) request.getObject();
-        if (message.getMessageReceiver().equals(nickname))
-            support.firePropertyChange(propertyChangeEvent);
+        support.firePropertyChange(propertyChangeEvent);
     }
 
-    //TODO have these checks in the server side (create your own propertyChangeEvent in server)
     private void onReceiveMessage(PropertyChangeEvent propertyChangeEvent) {
-        Request request = (Request) propertyChangeEvent.getNewValue();
-        Message message = (Message) request.getObject();
-        if (!message.getMessageSender().equals(nickname))
-            support.firePropertyChange(propertyChangeEvent);
+        support.firePropertyChange(propertyChangeEvent);
+    }
+
+    @Override
+    public void disconnect() {
+        client.disconnect();
     }
 
     @Override

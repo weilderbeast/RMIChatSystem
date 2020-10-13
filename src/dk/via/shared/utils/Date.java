@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Date {
-    private java.util.Date date;
+    private final java.util.Date date;
 
     public Date()
     {
@@ -13,7 +13,7 @@ public class Date {
     public String getTimestamp()
     {
         SimpleDateFormat sdf = new SimpleDateFormat(
-                "HH:mm:ss");
+                "HH:mm");
         return sdf.format(date);
     }
 }

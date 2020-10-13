@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class SocketServer {
 
-    private ConnectionPool connectionPool;
+    private final ConnectionPool connectionPool;
 
     public SocketServer(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;

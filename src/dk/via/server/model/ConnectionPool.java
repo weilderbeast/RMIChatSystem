@@ -9,8 +9,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 public class ConnectionPool implements Subject {
-    private PropertyChangeSupport support;
-    private ArrayList<String> userList;
+    private final PropertyChangeSupport support;
+    private final ArrayList<String> userList;
 
     public ConnectionPool() {
         support = new PropertyChangeSupport(this);
@@ -18,11 +18,11 @@ public class ConnectionPool implements Subject {
     }
 
     public void broadcast(Request request) {
-        support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL,request.getObject()));
+        support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL, request.getObject()));
     }
 
     public void sendPrivate(Request request) {
-        support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE,request.getObject()));
+        support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE, request.getObject()));
     }
 
     public void addUser(String nickname) {
@@ -31,6 +31,10 @@ public class ConnectionPool implements Subject {
 
     public void removeUser(String nickname) {
         userList.remove(nickname);
+    }
+
+    public void getUserList() {
+        support.firePropertyChange(UserAction.USER_LIST.toString(), null, new Request(UserAction.USER_LIST, new ArrayList<>(userList)));
     }
 
     @Override
@@ -45,7 +49,5 @@ public class ConnectionPool implements Subject {
         support.removePropertyChangeListener(eventName, listener);
     }
 
-    public void getUserList() {
-        support.firePropertyChange(UserAction.USER_LIST.toString(),null, new Request(UserAction.USER_LIST,new ArrayList<>(userList)));
-    }
+
 }

@@ -5,8 +5,10 @@ import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
 import dk.via.shared.utils.UserAction;
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +23,6 @@ import java.beans.PropertyChangeSupport;
 public class MainViewController {
     private MainViewModel viewModel;
     private ViewHandler viewHandler;
-    private ObservableList<HBox> userList;
 
     @FXML
     private TextField textField;
@@ -29,17 +30,15 @@ public class MainViewController {
     private VBox chatVBox;
     @FXML
     private VBox connectedUsersVBox;
-    @FXML
-    private ScrollPane chatScrollPane;
 
     public void init(MainViewModel mainViewModel, ViewHandler viewHandler) {
         viewModel = mainViewModel;
         this.viewHandler = viewHandler;
         textField.textProperty().bindBidirectional(viewModel.getSentText());
-        chatVBox.setSpacing(15);
-
+        chatVBox.setSpacing(10);
+        connectedUsersVBox.setSpacing(10);
         viewModel.addListener(UserAction.TEXT.toString(), event -> updateGeneralChat(event));
-
+        viewModel.addListener(UserAction.USER_LIST.toString(), event -> updateUsersList(event));
     }
 
     public void sendGroupMessage(ActionEvent actionEvent) {
@@ -59,7 +58,14 @@ public class MainViewController {
 
     public void updateUsersList(PropertyChangeEvent event) {
         Platform.runLater(() -> {
-
+            ObservableList<HBox> userList = (ObservableList<HBox>)event.getNewValue();
+            connectedUsersVBox.getChildren().clear();
+            for(int i=0;i<userList.size();i++)
+            {
+                userList.get(i).setStyle("-fx-cursor: hand");
+                userList.get(i).setStyle("-fx-background-color: #009687;-fx-padding: 5px;-fx-text-fill: white");
+                connectedUsersVBox.getChildren().add(userList.get(i));
+            }
         });
     }
 }

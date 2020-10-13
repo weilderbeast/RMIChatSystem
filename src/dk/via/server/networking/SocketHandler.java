@@ -13,8 +13,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class SocketHandler implements Runnable {
-    private Socket socket;
-    private ConnectionPool connectionPool;
+    private final Socket socket;
+    private final ConnectionPool connectionPool;
 
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
@@ -61,8 +61,11 @@ public class SocketHandler implements Runnable {
                     break;
                 case DISCONNECT:
                     connectionPool.removeUser(nickname);
-                    connectionPool.removeListener(UserAction.SEND_ALL.toString(),this::sendToClient);
+                    connectionPool.removeListener(UserAction.SEND_ALL.toString(), this::sendToClient);
                     connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
+                    connectionPool.removeListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
+                    connectionPool.removeListener(UserAction.RECEIVE.toString(), this::sendToClient);
+                    connectionPool.removeListener(UserAction.USER_LIST.toString(), this::sendToClient);
                     System.out.println(nickname+" disconnected.");
                     //socket.close();
                     break;
@@ -76,11 +79,27 @@ public class SocketHandler implements Runnable {
     private void sendToClient(PropertyChangeEvent evt) {
         try {
             Request request = (Request) evt.getNewValue();
-            if(request.getType().equals(UserAction.USER_LIST)) {
-                ArrayList<String> users = (ArrayList<String>) request.getObject();
-                System.out.println("Current user list: "+users.toString());
+            System.out.println("sending to client "+nickname+" the request "+request.getType());
+            //ugly, i know, the only way i could check who to send the messages to on the server side, because
+            //i am using firePropertyChange
+            switch (request.getType()){
+                case RECEIVE_ALL:
+                    Message message = (Message) request.getObject();
+                    if(!message.getMessageSender().equals(nickname))
+                        outputStream.writeObject(request);
+                    break;
+                case RECEIVE:
+                    Message privateMessage = (Message) request.getObject();
+                    if(privateMessage.getMessageReceiver().equals(nickname))
+                        outputStream.writeObject(request);
+                    break;
+                case USER_LIST:
+                    //maybe this works?
+                    outputStream.writeUnshared(request);
+                    break;
+                default:
+                    outputStream.writeObject(request);
             }
-            outputStream.writeObject(request);
         } catch (IOException e) {
             e.printStackTrace();
         }

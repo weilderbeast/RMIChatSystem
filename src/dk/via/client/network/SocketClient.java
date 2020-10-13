@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class SocketClient implements Client {
-    private PropertyChangeSupport support;
+    private final PropertyChangeSupport support;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private Socket socket;
@@ -38,10 +38,7 @@ public class SocketClient implements Client {
         try {
             while (true) {
                 Request request = (Request) inputStream.readObject();
-                if(request.getType().equals(UserAction.USER_LIST)) {
-                    ArrayList<String> users = (ArrayList<String>) request.getObject();
-                    System.out.println("User list received from server: "+users.toString());
-                }
+                System.out.println("received request "+request.getType());
                 support.firePropertyChange(request.getType().toString(), null, request);
             }
         } catch (IOException e) {
@@ -53,6 +50,7 @@ public class SocketClient implements Client {
 
     public void sendToServer(Request request) {
         try {
+            System.out.println("send request "+request.getType());
             outputStream.writeObject(request);
         } catch (IOException e) {
             e.printStackTrace();

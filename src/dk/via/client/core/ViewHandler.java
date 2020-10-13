@@ -11,8 +11,7 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 
 public class ViewHandler {
-    private Scene mainScene;
-    private ViewModelFactory viewModelFactory;
+    private final ViewModelFactory viewModelFactory;
     private Stage stage;
     private Scene scene;
 
@@ -54,7 +53,7 @@ public class ViewHandler {
 
         scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("..\\view\\style\\style.css").toExternalForm());
-        Font.loadFont(getClass().getResourceAsStream("..\\view\\style\\Roboto-Regular.ttf"),16);
+        Font.loadFont(getClass().getResourceAsStream("..\\view\\style\\fonts\\Roboto-Regular.ttf"),16);
         stage.setScene(scene);
         stage.show();
     }

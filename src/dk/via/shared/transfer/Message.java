@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Message implements Serializable
 {
-  private String messageBody;
-  private String messageSender;
-  private String messageReceiver;
+  private final String messageBody;
+  private final String messageSender;
+  private final String messageReceiver;
 
   public Message(String messageSender,String messageBody,String messageReceiver)
   {

@@ -5,8 +5,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class LoginViewModel {
-    private ChatSystem chatSystem;
-    private StringProperty nickname;
+    private final ChatSystem chatSystem;
+    private final StringProperty nickname;
 
     public LoginViewModel(ChatSystem chatSystem) {
         this.chatSystem = chatSystem;
