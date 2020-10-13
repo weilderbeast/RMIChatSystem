@@ -38,7 +38,7 @@ public class SocketClient implements Client {
         try {
             while (true) {
                 Request request = (Request) inputStream.readObject();
-                System.out.println("received request "+request.getType());
+                System.out.println("received request " + request.getType());
                 support.firePropertyChange(request.getType().toString(), null, request);
             }
         } catch (IOException e) {
@@ -50,7 +50,7 @@ public class SocketClient implements Client {
 
     public void sendToServer(Request request) {
         try {
-            System.out.println("send request "+request.getType());
+            System.out.println("sent request " + request.getType());
             outputStream.writeObject(request);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class SocketClient implements Client {
     @Override
     public void disconnect() {
         try {
-            sendToServer(new Request(UserAction.DISCONNECT,null));
+            sendToServer(new Request(UserAction.DISCONNECT, null));
             //socket.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -60,7 +60,7 @@ public class MainViewController {
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode().equals(KeyCode.ENTER)){
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                     sendGroupMessage();
                 }
             }
@@ -81,7 +81,7 @@ public class MainViewController {
         viewModel.disconnect();
     }
 
-    public void updateGeneralChat(PropertyChangeEvent event){
+    public void updateGeneralChat(PropertyChangeEvent event) {
         Platform.runLater(() -> {
             chatVBox.getChildren().add(createMessage(event));
         });
@@ -89,10 +89,9 @@ public class MainViewController {
 
     public void updateUsersList(PropertyChangeEvent event) {
         Platform.runLater(() -> {
-            ArrayList<String> userList = (ArrayList<String>)event.getNewValue();
+            ArrayList<String> userList = (ArrayList<String>) event.getNewValue();
             connectedUsersVBox.getChildren().clear();
-            for(int i=0;i<userList.size();i++)
-            {
+            for (int i = 0; i < userList.size(); i++) {
                 HBox hBox = createUserListing(userList.get(i));
                 hBox.setStyle("-fx-background-color: #009687;-fx-padding: 5px;-fx-text-fill: white;-fx-cursor: hand");
                 connectedUsersVBox.getChildren().add(hBox);
@@ -101,13 +100,13 @@ public class MainViewController {
         });
     }
 
-    public void updateCurrentTime(){
+    public void updateCurrentTime() {
         Platform.runLater(() -> {
 
         });
     }
 
-    private VBox createMessage(PropertyChangeEvent event){
+    private VBox createMessage(PropertyChangeEvent event) {
 
         Message message = (Message) event.getNewValue();
 
@@ -121,7 +120,7 @@ public class MainViewController {
         messageLabel.setMaxWidth(410);
 
         VBox messageBox;
-        HBox secondaryMessageBox = new HBox(messageLabel,timeStamp);
+        HBox secondaryMessageBox = new HBox(messageLabel, timeStamp);
         secondaryMessageBox.setMaxWidth(450);
         secondaryMessageBox.setAlignment(Pos.BOTTOM_LEFT);
         if (!lastSender.equals(message.getMessageSender())) {
@@ -138,7 +137,7 @@ public class MainViewController {
         return messageBox;
     }
 
-    private VBox createMessage(){
+    private VBox createMessage() {
         Message message = new Message("Me", textField.getText());
 
         Label messageLabel = new Label(message.getMessageBody());
@@ -148,7 +147,7 @@ public class MainViewController {
         messageLabel.setMaxWidth(400);
         messageLabel.setWrapText(true);
 
-        HBox secondaryMessageBox = new HBox(timeStamp,messageLabel);
+        HBox secondaryMessageBox = new HBox(timeStamp, messageLabel);
         secondaryMessageBox.setAlignment(Pos.BOTTOM_RIGHT);
         VBox messageBox = new VBox(secondaryMessageBox);
         messageBox.setAlignment(Pos.BASELINE_RIGHT);
@@ -173,7 +172,6 @@ public class MainViewController {
 
         return hBox;
     }
-
 
 
 }

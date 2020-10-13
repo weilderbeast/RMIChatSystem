@@ -32,7 +32,7 @@ public class ChatSystemManager implements ChatSystem {
 
     private void onReceiveRequest(PropertyChangeEvent propertyChangeEvent) {
         Request request = (Request) propertyChangeEvent.getNewValue();
-        System.out.println(request.getType()+" event fired with "+request.getObject());
+        System.out.println(request.getType() + " event fired with " + request.getObject());
         support.firePropertyChange(propertyChangeEvent);
     }
 

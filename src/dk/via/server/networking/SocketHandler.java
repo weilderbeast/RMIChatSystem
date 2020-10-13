@@ -41,38 +41,39 @@ public class SocketHandler implements Runnable {
 
     @Override
     public void run() {
-        while(true){
-        try {
-            Request request = (Request) inputStream.readObject();
-            switch (request.getType()) {
-                case SEND:
-                    connectionPool.sendPrivate(request);
-                    break;
-                case SEND_ALL:
-                    Message message = (Message) request.getObject();
-                    System.out.println(message.getMessageSender()+": "+message.getMessageBody());
-                    connectionPool.broadcast(request);
-                    break;
-                case LOGIN:
-                    nickname = (String)request.getObject();
-                    System.out.println(nickname+" connected.");
-                    connectionPool.addUser(nickname);
-                    connectionPool.getUserList();
-                    break;
-                case DISCONNECT:
-                    connectionPool.removeUser(nickname);
-                    connectionPool.removeListener(UserAction.SEND_ALL.toString(), this::sendToClient);
-                    connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
-                    connectionPool.removeListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
-                    connectionPool.removeListener(UserAction.RECEIVE.toString(), this::sendToClient);
-                    connectionPool.removeListener(UserAction.USER_LIST.toString(), this::sendToClient);
-                    System.out.println(nickname+" disconnected.");
-                    //socket.close();
-                    break;
+        while (true) {
+            try {
+                Request request = (Request) inputStream.readObject();
+                switch (request.getType()) {
+                    case SEND:
+                        connectionPool.sendPrivate(request);
+                        break;
+                    case SEND_ALL:
+                        Message message = (Message) request.getObject();
+                        System.out.println(message.getMessageSender() + ": " + message.getMessageBody());
+                        connectionPool.broadcast(request);
+                        break;
+                    case LOGIN:
+                        nickname = (String) request.getObject();
+                        System.out.println(nickname + " connected.");
+                        connectionPool.addUser(nickname);
+                        connectionPool.getUserList();
+                        break;
+                    case DISCONNECT:
+                        connectionPool.removeUser(nickname);
+                        connectionPool.removeListener(UserAction.SEND_ALL.toString(), this::sendToClient);
+                        connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
+                        connectionPool.removeListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
+                        connectionPool.removeListener(UserAction.RECEIVE.toString(), this::sendToClient);
+                        connectionPool.removeListener(UserAction.USER_LIST.toString(), this::sendToClient);
+                        System.out.println(nickname + " disconnected.");
+                        connectionPool.getUserList();
+                        //socket.close();
+                        break;
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         }
     }
 
@@ -81,15 +82,15 @@ public class SocketHandler implements Runnable {
             Request request = (Request) evt.getNewValue();
             //ugly, i know, the only way i could check who to send the messages to on the server side, because
             //i am using firePropertyChange
-            switch (request.getType()){
+            switch (request.getType()) {
                 case RECEIVE_ALL:
                     Message message = (Message) request.getObject();
-                    if(!message.getMessageSender().equals(nickname))
+                    if (!message.getMessageSender().equals(nickname))
                         outputStream.writeObject(request);
                     break;
                 case RECEIVE:
                     Message privateMessage = (Message) request.getObject();
-                    if(privateMessage.getMessageReceiver().equals(nickname))
+                    if (privateMessage.getMessageReceiver().equals(nickname))
                         outputStream.writeObject(request);
                     break;
                 case USER_LIST:

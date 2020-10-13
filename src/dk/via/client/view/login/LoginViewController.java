@@ -23,7 +23,7 @@ public class LoginViewController {
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode().equals(KeyCode.ENTER)){
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                     try {
                         openMain();
                     } catch (IOException e) {

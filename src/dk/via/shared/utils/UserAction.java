@@ -1,13 +1,12 @@
 package dk.via.shared.utils;
 
-public enum UserAction
-{
-  SEND,
-  RECEIVE,
-  SEND_ALL,
-  RECEIVE_ALL,
-  USER_LIST,
-  LOGIN,
-  DISCONNECT,
-  TEXT
+public enum UserAction {
+    SEND,
+    RECEIVE,
+    SEND_ALL,
+    RECEIVE_ALL,
+    USER_LIST,
+    LOGIN,
+    DISCONNECT,
+    TEXT
 }

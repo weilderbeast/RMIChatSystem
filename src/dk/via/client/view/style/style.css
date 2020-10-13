@@ -1,4 +1,4 @@
-.root{
+.root {
     -fx-font-smoothing-type: antialiased;
 }
 
@@ -42,16 +42,19 @@
     -fx-background-color: transparent;
 }
 
-.scroll-pane > .viewport{
+.scroll-pane > .viewport {
     -fx-background-color: transparent;
 }
-.scroll-pane{
+
+.scroll-pane {
     -fx-background-color: transparent;
 }
-.chat-vbox{
+
+.chat-vbox {
     -fx-padding: 15px;
 }
-.scroll-bar:horizontal, .scroll-bar:vertical{
+
+.scroll-bar:horizontal, .scroll-bar:vertical {
     -fx-background-color: transparent;
 }
 
@@ -72,18 +75,19 @@
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
 }
-.chat-sender{
+
+.chat-sender {
     -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-padding: 10 0 0 0;
 }
 
-.chat-timestamp{
+.chat-timestamp {
     -fx-font-size: 5px;
     -fx-text-fill: grey;
 }
 
-.white{
+.white {
     -fx-text-fill: white;
 }
 
