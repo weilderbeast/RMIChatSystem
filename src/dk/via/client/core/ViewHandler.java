@@ -52,6 +52,7 @@ public class ViewHandler {
         }
 
         scene = new Scene(root);
+
         scene.getStylesheets().add(getClass().getResource("..\\view\\style\\style.css").toExternalForm());
         Font.loadFont(getClass().getResourceAsStream("..\\view\\style\\fonts\\Roboto-Regular.ttf"), 16);
         stage.setScene(scene);

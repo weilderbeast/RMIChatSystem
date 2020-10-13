@@ -1,5 +1,6 @@
 .root {
-    -fx-font-smoothing-type: antialiased;
+    -fx-font-smoothing-type: gray !important;
+    -fx-font-family: "Roboto";
 }
 
 /* chat styling */
@@ -25,6 +26,7 @@
     -fx-background-color: #65696b;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
+    -fx-text-fill: white;
 }
 
 
