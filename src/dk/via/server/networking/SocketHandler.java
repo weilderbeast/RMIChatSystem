@@ -92,6 +92,9 @@ public class SocketHandler implements Runnable {
                     if(privateMessage.getMessageReceiver().equals(nickname))
                         outputStream.writeObject(request);
                     break;
+                case USER_LIST:
+                    outputStream.writeUnshared(request);
+                    break;
                 default:
                     outputStream.writeObject(request);
             }
