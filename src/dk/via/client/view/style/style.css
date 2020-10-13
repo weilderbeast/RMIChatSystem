@@ -1,3 +1,7 @@
+.root{
+    -fx-font-smoothing-type: antialiased;
+}
+
 /* chat styling */
 .connected-tab {
     -fx-background-color: #2f3538;
@@ -10,16 +14,8 @@
 
 .connected-list {
     -fx-background-color: transparent;
+    -fx-text-fill: white;
 }
-
-.connected-list .list-cell:focused {
-    -fx-background-color: #4d4d4d;
-}
-
-.connected-list .list-cell:filled:hover {
-    -fx-background-color: #6e6e6e;
-}
-
 
 .input-tab {
     -fx-background-color: #2f3538;
@@ -59,10 +55,6 @@
     -fx-background-color: transparent;
 }
 
-.chat-list .list-cell:odd {
-
-}
-
 .chat-message-label-sent {
     -fx-background-color: #054740;
     -fx-text-fill: white;
@@ -82,9 +74,15 @@
 }
 .chat-sender{
     -fx-text-fill: white;
-    -fx-font-size: 10px;
-    -fx-padding: 10 0 0 15;
+    -fx-font-size: 12px;
+    -fx-padding: 10 0 0 0;
 }
+
+.chat-timestamp{
+    -fx-font-size: 5px;
+    -fx-text-fill: grey;
+}
+
 .white{
     -fx-text-fill: white;
 }
@@ -105,11 +103,11 @@
 
 /* login styling */
 .login-main {
-    -fx-background-color: #808080;
+    -fx-background-color: #0f191b;
 }
 
 .login-inner {
-    -fx-background-color: #4d4d4d;
+    -fx-background-color: #2f3538;
 }
 
 .login-header {
@@ -124,10 +122,12 @@
 
 .login-input {
     -fx-background-color: transparent;
-    -fx-border-color: #808080;
+    -fx-border-color: #65696b;
     -fx-border-width: 3;
     -fx-border-style: hidden none solid none;
     -fx-transition: .2s;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
 }
 
 .login-input:focused {
@@ -135,7 +135,7 @@
 }
 
 .login-button {
-    -fx-background-color: #808080;
+    -fx-background-color: #054740;
     -fx-text-fill: white;
     -fx-background-radius: 0;
 }

@@ -17,11 +17,11 @@ public class ChatSystemManager implements ChatSystem {
     public ChatSystemManager(Client client) {
         this.client = client;
 
-        client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveMessage);
-        client.addListener(UserAction.RECEIVE.toString(), this::onReceiveDirectMessage);
-        client.addListener(UserAction.USER_LIST.toString(), this::onReceiveUserList);
-
         support = new PropertyChangeSupport(this);
+
+        client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveRequest);
+        client.addListener(UserAction.RECEIVE.toString(), this::onReceiveRequest);
+        client.addListener(UserAction.USER_LIST.toString(), this::onReceiveRequest);
     }
 
     public void startClient(String nickname) {
@@ -30,17 +30,9 @@ public class ChatSystemManager implements ChatSystem {
         this.nickname = nickname;
     }
 
-    private void onReceiveUserList(PropertyChangeEvent propertyChangeEvent) {
+    private void onReceiveRequest(PropertyChangeEvent propertyChangeEvent) {
         Request request = (Request) propertyChangeEvent.getNewValue();
         System.out.println(request.getType()+" event fired with "+request.getObject());
-        support.firePropertyChange(propertyChangeEvent);
-    }
-
-    private void onReceiveDirectMessage(PropertyChangeEvent propertyChangeEvent) {
-        support.firePropertyChange(propertyChangeEvent);
-    }
-
-    private void onReceiveMessage(PropertyChangeEvent propertyChangeEvent) {
         support.firePropertyChange(propertyChangeEvent);
     }
 

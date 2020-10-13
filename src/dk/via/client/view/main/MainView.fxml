@@ -11,9 +11,9 @@
    <children>
       <AnchorPane prefHeight="756.0" prefWidth="218.0" styleClass="connected-tab" stylesheets="@../style/style.css">
          <children>
-            <Button layoutX="50.0" layoutY="705.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="37.0" prefWidth="119.0" styleClass="disconnect-button" text="Disconnect" />
+            <Button layoutX="51.0" layoutY="705.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="37.0" prefWidth="119.0" styleClass="disconnect-button" text="Disconnect" />
             <Label layoutX="34.0" layoutY="21.0" styleClass="connected-header" text="Connected Users" />
-            <AnchorPane layoutY="67.0" prefHeight="618.0" prefWidth="218.0">
+            <AnchorPane layoutX="1.0" layoutY="69.0" prefHeight="618.0" prefWidth="218.0">
                <children>
                   <VBox fx:id="connectedUsersVBox" prefHeight="618.0" prefWidth="218.0" />
                </children>
@@ -39,7 +39,7 @@
             <AnchorPane layoutY="687.0" prefHeight="69.0" prefWidth="728.0" styleClass="input-tab" stylesheets="@../style/style.css">
                <children>
                   <TextField fx:id="textField" layoutX="14.0" layoutY="18.0" prefHeight="37.0" prefWidth="626.0" styleClass="input-field" />
-                  <Button layoutX="652.0" layoutY="18.0" mnemonicParsing="false" onAction="#sendGroupMessage" prefHeight="37.0" prefWidth="62.0" styleClass="send-button" text="Send" />
+                  <Button fx:id="sendButton" layoutX="652.0" layoutY="18.0" mnemonicParsing="false" onAction="#sendGroupMessage" prefHeight="37.0" prefWidth="62.0" styleClass="send-button" text="Send" />
                </children>
             </AnchorPane>
          </children>

@@ -79,7 +79,6 @@ public class SocketHandler implements Runnable {
     private void sendToClient(PropertyChangeEvent evt) {
         try {
             Request request = (Request) evt.getNewValue();
-            System.out.println("sending to client "+nickname+" the request "+request.getType());
             //ugly, i know, the only way i could check who to send the messages to on the server side, because
             //i am using firePropertyChange
             switch (request.getType()){
@@ -92,10 +91,6 @@ public class SocketHandler implements Runnable {
                     Message privateMessage = (Message) request.getObject();
                     if(privateMessage.getMessageReceiver().equals(nickname))
                         outputStream.writeObject(request);
-                    break;
-                case USER_LIST:
-                    //maybe this works?
-                    outputStream.writeUnshared(request);
                     break;
                 default:
                     outputStream.writeObject(request);

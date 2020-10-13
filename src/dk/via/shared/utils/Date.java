@@ -1,9 +1,10 @@
 package dk.via.shared.utils;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Date {
+public class Date implements Serializable {
     private final java.util.Date date;
 
     public Date()

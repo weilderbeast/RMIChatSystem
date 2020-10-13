@@ -36,7 +36,7 @@ public class ViewHandler {
                 root = loader.load();
                 LoginViewController loginViewController = loader.getController();
                 loginViewController.init(viewModelFactory.getLoginViewModel(), this);
-                stage.setTitle("Temperature View");
+                stage.setTitle("Login");
                 break;
             }
             case "Main": {
@@ -46,7 +46,7 @@ public class ViewHandler {
                 root = loader.load();
                 MainViewController mainViewController = loader.getController();
                 mainViewController.init(viewModelFactory.getMainViewModel(), this);
-                stage.setTitle("Log View");
+                stage.setTitle("Hello, and welcome.");
                 break;
             }
         }
