@@ -17,14 +17,6 @@ public class Message implements Serializable {
         this.timeStamp = new Date();
     }
 
-    public Message(String messageSender, String messageBody) {
-        this.messageBody = messageBody;
-        this.messageSender = messageSender;
-        this.messageReceiver = "default";
-        this.timeStamp = new Date();
-    }
-
-
     public String getMessageBody() {
         return messageBody;
     }

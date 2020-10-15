@@ -25,7 +25,6 @@ public class SocketHandler implements Runnable {
         this.socket = socket;
         this.connectionPool = connectionPool;
 
-        connectionPool.addListener(UserAction.SEND_ALL.toString(), this::sendToClient);
         connectionPool.addListener(UserAction.SEND.toString(), this::sendToClient);
         connectionPool.addListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
         connectionPool.addListener(UserAction.RECEIVE.toString(), this::sendToClient);
@@ -46,11 +45,10 @@ public class SocketHandler implements Runnable {
                 Request request = (Request) inputStream.readObject();
                 switch (request.getType()) {
                     case SEND:
-                        connectionPool.sendPrivate(request);
-                        break;
-                    case SEND_ALL:
-                        Message message = (Message) request.getObject();
-                        System.out.println(message.getMessageSender() + ": " + message.getMessageBody());
+                        Message privateMessage = (Message) request.getObject();
+                        System.out.println(privateMessage.getMessageSender() +
+                                " sends to " + privateMessage.getMessageReceiver() +
+                                " : "+privateMessage.getMessageBody());
                         connectionPool.broadcast(request);
                         break;
                     case LOGIN:
@@ -61,7 +59,6 @@ public class SocketHandler implements Runnable {
                         break;
                     case DISCONNECT:
                         connectionPool.removeUser(nickname);
-                        connectionPool.removeListener(UserAction.SEND_ALL.toString(), this::sendToClient);
                         connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
                         connectionPool.removeListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
                         connectionPool.removeListener(UserAction.RECEIVE.toString(), this::sendToClient);

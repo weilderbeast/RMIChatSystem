@@ -1,5 +1,6 @@
 package dk.via.server.model;
 
+import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
 import dk.via.shared.utils.Subject;
 import dk.via.shared.utils.UserAction;
@@ -18,11 +19,11 @@ public class ConnectionPool implements Subject {
     }
 
     public void broadcast(Request request) {
-        support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL, request.getObject()));
-    }
-
-    public void sendPrivate(Request request) {
-        support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE, request.getObject()));
+        Message message = (Message) request.getObject();
+        if (message.getMessageReceiver().equals("General"))
+            support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL, request.getObject()));
+        else
+            support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE, request.getObject()));
     }
 
     public void addUser(String nickname) {
