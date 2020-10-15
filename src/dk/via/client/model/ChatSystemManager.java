@@ -21,13 +21,14 @@ public class ChatSystemManager implements ChatSystem {
 
         support = new PropertyChangeSupport(this);
         nickname = new SimpleStringProperty();
-        client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveRequest);
-        client.addListener(UserAction.RECEIVE.toString(), this::onReceiveRequest);
-        client.addListener(UserAction.USER_LIST.toString(), this::onReceiveRequest);
+        this.client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveRequest);
+        this.client.addListener(UserAction.RECEIVE.toString(), this::onReceiveRequest);
+        this.client.addListener(UserAction.USER_LIST.toString(), this::onReceiveRequest);
+
     }
 
     public void startClient(String nickname) {
-        client.startClient();
+        this.client.startClient();
         client.sendToServer(new Request(UserAction.LOGIN, nickname));
         this.nickname.setValue(nickname);
     }

@@ -42,7 +42,7 @@ public class SocketClient implements Client {
                 support.firePropertyChange(request.getType().toString(), null, request);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

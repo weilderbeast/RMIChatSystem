@@ -43,6 +43,7 @@ public class SocketHandler implements Runnable {
         while (true) {
             try {
                 Request request = (Request) inputStream.readObject();
+                if(!request.getType().equals(UserAction.DISCONNECT))
                 switch (request.getType()) {
                     case SEND:
                         Message privateMessage = (Message) request.getObject();
@@ -57,16 +58,16 @@ public class SocketHandler implements Runnable {
                         connectionPool.addUser(nickname);
                         connectionPool.getUserList();
                         break;
-                    case DISCONNECT:
-                        connectionPool.removeUser(nickname);
-                        connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
-                        connectionPool.removeListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
-                        connectionPool.removeListener(UserAction.RECEIVE.toString(), this::sendToClient);
-                        connectionPool.removeListener(UserAction.USER_LIST.toString(), this::sendToClient);
-                        System.out.println(nickname + " disconnected.");
-                        connectionPool.getUserList();
-                        //socket.close();
-                        break;
+                } else {
+                    connectionPool.removeUser(nickname);
+                    connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
+                    connectionPool.removeListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
+                    connectionPool.removeListener(UserAction.RECEIVE.toString(), this::sendToClient);
+                    connectionPool.removeListener(UserAction.USER_LIST.toString(), this::sendToClient);
+                    System.out.println(nickname + " disconnected.");
+                    connectionPool.getUserList();
+                    socket.close();
+                    break;
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

@@ -6,6 +6,8 @@ public enum UserAction {
     RECEIVE_ALL,
     USER_LIST,
     LOGIN,
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
     DISCONNECT,
     TEXT,
     NOTIFICATION,

@@ -27,7 +27,17 @@ public class ConnectionPool implements Subject {
     }
 
     public void addUser(String nickname) {
-        userList.add(nickname);
+        boolean flag = false;
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).equals(nickname))
+                flag = true;
+        }
+        if (!flag) {
+            userList.add(nickname);
+            support.firePropertyChange(UserAction.LOGIN_SUCCESS.toString(), null, new Request(UserAction.LOGIN_SUCCESS, null));
+        }
+        else
+            support.firePropertyChange(UserAction.LOGIN_FAILED.toString(), null, new Request(UserAction.LOGIN_FAILED, null));
     }
 
     public void removeUser(String nickname) {
