@@ -18,6 +18,11 @@
     -fx-text-fill: white;
 }
 
+.general-chat-label{
+    -fx-background-color:#009687;
+    -fx-font-size: 16px;
+}
+
 .input-tab {
     -fx-background-color: #2f3538;
 }

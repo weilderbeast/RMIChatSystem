@@ -55,6 +55,8 @@ public class MainViewController {
     private Label chatName;
     @FXML
     private Label generalChat;
+    @FXML
+    private ScrollPane chatScrollPane;
 
     public void init(MainViewModel mainViewModel, ViewHandler viewHandler) {
         viewModel = mainViewModel;
@@ -92,10 +94,27 @@ public class MainViewController {
             chatVBox.getChildren().clear();
             viewModel.loadLogs();
         });
+
+        System.out.println("Created controller.");
+        viewModel.loadUsers();
     }
 
     private void ping(PropertyChangeEvent event) {
         System.out.println("got a message from someone else");
+        Message message = (Message) event.getNewValue();
+        Platform.runLater(() -> {
+            for(int i=0;i<connectedUsersVBox.getChildren().size();i++){
+                HBox hBox = (HBox)connectedUsersVBox.getChildren().get(i);
+                VBox vBox = (VBox)hBox.getChildren().get(0);
+                Label timeStamp = (Label)hBox.getChildren().get(1);
+                Label lastSent = (Label)vBox.getChildren().get(1);
+
+                Date date = new Date();
+                //TODO the last message sent and the timestamp
+                timeStamp.setText(date.getTimestamp());
+                //lastSent.set
+            }
+        });
     }
 
     private void loadChat(PropertyChangeEvent event) {
@@ -110,6 +129,7 @@ public class MainViewController {
     }
 
     public void sendMessage() {
+        System.out.println("current source: "+SOURCE.getValue());
         if (!textField.getText().equals(null) && !textField.getText().equals("")) {
             viewModel.sendMessage();
             updateChat(new Message(nickname.getValue(), textField.getText(), SOURCE.getValue()));
@@ -128,6 +148,11 @@ public class MainViewController {
             if (message.getMessageSender().equals(nickname.getValue()))
                 chatVBox.getChildren().add(createPersonalMessage(message));
             else chatVBox.getChildren().add(createReceivedMessage(message));
+
+            //scrolls the last message into view
+            chatVBox.heightProperty().addListener((observable -> {
+                chatScrollPane.setVvalue(1.0d);
+            }));
         });
     }
 
@@ -211,8 +236,8 @@ public class MainViewController {
 
     private HBox createUserListing(String name) {
         Label userName = new Label(name);
-        Label lastSentText = new Label("placeholder");
-        Label timeStamp = new Label("1:47PM");
+        Label lastSentText = new Label("");
+        Label timeStamp = new Label("");
 
         timeStamp.setAlignment(Pos.BASELINE_RIGHT);
 

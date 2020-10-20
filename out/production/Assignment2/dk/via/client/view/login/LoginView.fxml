@@ -5,20 +5,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="756.0" prefWidth="946.0" styleClass="login-main" stylesheets="@../style/style.css"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dk.via.client.view.login.LoginViewController">
+<AnchorPane prefHeight="756.0" prefWidth="946.0" styleClass="login-main" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.via.client.view.login.LoginViewController">
     <children>
-        <AnchorPane layoutX="128.0" layoutY="106.0" prefHeight="544.0" prefWidth="690.0" styleClass="login-inner"
-                    stylesheets="@../style/style.css">
+        <AnchorPane layoutX="128.0" layoutY="106.0" prefHeight="544.0" prefWidth="690.0" styleClass="login-inner" stylesheets="@../style/style.css">
             <children>
-                <Label layoutX="56.0" layoutY="78.0" styleClass="login-header" text="Welcome"/>
-                <TextField fx:id="textField" layoutX="56.0" layoutY="221.0" prefHeight="31.0" prefWidth="293.0"
-                           styleClass="login-input"/>
-                <Label layoutX="56.0" layoutY="264.0" styleClass="login-help-text"
-                       text="Choose your nickname and then click on the login button below."/>
-                <Button layoutX="466.0" layoutY="410.0" mnemonicParsing="false" onAction="#openMain" prefHeight="45.0"
-                        prefWidth="135.0" styleClass="login-button" text="Login"/>
+                <Label layoutX="56.0" layoutY="78.0" styleClass="login-header" text="Welcome" />
+                <TextField fx:id="textField" layoutX="56.0" layoutY="221.0" prefHeight="31.0" prefWidth="293.0" styleClass="login-input" />
+                <Label layoutX="56.0" layoutY="264.0" styleClass="login-help-text" text="Choose your nickname and then click on the login button below." />
+                <Button layoutX="466.0" layoutY="410.0" mnemonicParsing="false" onAction="#Login" prefHeight="45.0" prefWidth="135.0" styleClass="login-button" text="Login" />
+            <Label fx:id="errorLabel" layoutX="56.0" layoutY="314.0" styleClass="login-help-text" textFill="RED" />
             </children>
         </AnchorPane>
     </children>

@@ -1,6 +1,8 @@
 package dk.via.client.view.login;
 
 import dk.via.client.core.ViewHandler;
+import dk.via.shared.utils.UserAction;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 
 public class LoginViewController {
@@ -22,24 +25,34 @@ public class LoginViewController {
     public void init(LoginViewModel loginViewModel, ViewHandler viewHandler) {
         this.viewHandler = viewHandler;
         viewModel = loginViewModel;
-        //errorLabel.textProperty().bind(viewModel.getError());
+        viewModel.addListener(UserAction.LOGIN_SUCCESS.toString(), this::openMain);
+        errorLabel = new Label();
+        errorLabel.textProperty().bindBidirectional(viewModel.getError());
         textField.textProperty().bindBidirectional(viewModel.getNickname());
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                     try {
-                        openMain();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        Login();
+                    } catch (Exception e) {
                     }
                 }
             }
         });
     }
 
-    public void openMain() throws IOException {
+    public void Login(){
         viewModel.startClient();
-        viewHandler.openView("Main");
+    }
+
+    public void openMain(PropertyChangeEvent evt) {
+        Platform.runLater(() ->{
+            try {
+                viewHandler.openView("Main");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

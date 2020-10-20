@@ -11,5 +11,5 @@ public enum UserAction {
     DISCONNECT,
     TEXT,
     NOTIFICATION,
-    LOAD_LOGS
+    LOAD_LOGS,
 }

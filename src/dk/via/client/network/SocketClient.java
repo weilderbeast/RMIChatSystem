@@ -16,9 +16,11 @@ public class SocketClient implements Client {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private Socket socket;
+    //private String ID;
 
     public SocketClient() {
         support = new PropertyChangeSupport(this);
+        System.out.println("Created client.");
     }
 
     @Override
@@ -42,9 +44,7 @@ public class SocketClient implements Client {
                 support.firePropertyChange(request.getType().toString(), null, request);
             }
         } catch (IOException e) {
-
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
@@ -61,7 +61,6 @@ public class SocketClient implements Client {
     public void disconnect() {
         try {
             sendToServer(new Request(UserAction.DISCONNECT, null));
-            //socket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

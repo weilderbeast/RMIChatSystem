@@ -12,8 +12,8 @@
                 <Label layoutX="56.0" layoutY="78.0" styleClass="login-header" text="Welcome" />
                 <TextField fx:id="textField" layoutX="56.0" layoutY="221.0" prefHeight="31.0" prefWidth="293.0" styleClass="login-input" />
                 <Label layoutX="56.0" layoutY="264.0" styleClass="login-help-text" text="Choose your nickname and then click on the login button below." />
-                <Button layoutX="466.0" layoutY="410.0" mnemonicParsing="false" onAction="#openMain" prefHeight="45.0" prefWidth="135.0" styleClass="login-button" text="Login" />
-            <Label layoutX="56.0" layoutY="314.0" styleClass="login-help-text" text="Username already taken." textFill="RED" />
+                <Button layoutX="466.0" layoutY="410.0" mnemonicParsing="false" onAction="#Login" prefHeight="45.0" prefWidth="135.0" styleClass="login-button" text="Login" />
+            <Label fx:id="errorLabel" layoutX="56.0" layoutY="314.0" styleClass="login-help-text" textFill="RED" />
             </children>
         </AnchorPane>
     </children>

@@ -9,14 +9,14 @@
 
 <AnchorPane prefHeight="756.0" prefWidth="946.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.via.client.view.main.MainViewController">
     <children>
-        <AnchorPane prefHeight="756.0" prefWidth="218.0" styleClass="connected-tab" stylesheets="@../style/style.css">
+        <AnchorPane prefHeight="757.0" prefWidth="220.0" styleClass="connected-tab" stylesheets="@../style/style.css">
             <children>
                 <Button layoutX="51.0" layoutY="705.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="37.0" prefWidth="119.0" styleClass="disconnect-button" text="Disconnect" />
                 <Label layoutX="36.0" layoutY="20.0" styleClass="connected-header" text="Connected Users" />
                 <AnchorPane layoutX="1.0" layoutY="69.0" prefHeight="618.0" prefWidth="218.0">
                     <children>
                         <VBox fx:id="connectedUsersVBox" layoutY="74.0" prefHeight="544.0" prefWidth="218.0" />
-                  <Label fx:id="generalChat" layoutX="69.0" layoutY="26.0" prefHeight="30.0" prefWidth="68.0" text="General-click" textFill="WHITE" />
+                  <Label fx:id="generalChat" alignment="CENTER" prefHeight="56.0" prefWidth="218.0" styleClass="general-chat-label" text="General" textAlignment="CENTER" textFill="WHITE" />
                     </children>
                 </AnchorPane>
             </children>
@@ -31,14 +31,14 @@
                 </AnchorPane>
                 <AnchorPane layoutY="69.0" prefHeight="618.0" prefWidth="728.0" styleClass="chat-list">
                     <children>
-                        <ScrollPane hbarPolicy="NEVER" prefHeight="618.0" prefWidth="728.0" vbarPolicy="NEVER">
+                        <ScrollPane fx:id="chatScrollPane" hbarPolicy="NEVER" prefHeight="618.0" prefWidth="728.0" vbarPolicy="NEVER">
                             <content>
                                 <VBox fx:id="chatVBox" prefHeight="605.0" prefWidth="728.0" styleClass="chat-vbox" />
                             </content>
                         </ScrollPane>
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutY="687.0" prefHeight="69.0" prefWidth="728.0" styleClass="input-tab" stylesheets="@../style/style.css">
+                <AnchorPane layoutY="687.0" prefHeight="70.0" prefWidth="728.0" styleClass="input-tab" stylesheets="@../style/style.css">
                     <children>
                         <TextField fx:id="textField" layoutX="14.0" layoutY="18.0" prefHeight="37.0" prefWidth="626.0" styleClass="input-field" />
                         <Button fx:id="sendButton" layoutX="652.0" layoutY="18.0" mnemonicParsing="false" onAction="#sendMessage" prefHeight="37.0" prefWidth="62.0" styleClass="send-button" text="Send" />

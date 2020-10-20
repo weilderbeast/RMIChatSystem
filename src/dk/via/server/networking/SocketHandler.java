@@ -4,6 +4,7 @@ import dk.via.server.model.ConnectionPool;
 import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
 import dk.via.shared.utils.UserAction;
+import dk.via.shared.utils.UserID;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -29,6 +30,8 @@ public class SocketHandler implements Runnable {
         connectionPool.addListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
         connectionPool.addListener(UserAction.RECEIVE.toString(), this::sendToClient);
         connectionPool.addListener(UserAction.USER_LIST.toString(), this::sendToClient);
+        connectionPool.addListener(UserAction.LOGIN_SUCCESS.toString(), this::sendToClient);
+        connectionPool.addListener(UserAction.LOGIN_FAILED.toString(), this::sendToClient);
 
         try {
             outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -43,32 +46,36 @@ public class SocketHandler implements Runnable {
         while (true) {
             try {
                 Request request = (Request) inputStream.readObject();
-                if(!request.getType().equals(UserAction.DISCONNECT))
-                switch (request.getType()) {
-                    case SEND:
-                        Message privateMessage = (Message) request.getObject();
-                        System.out.println(privateMessage.getMessageSender() +
-                                " sends to " + privateMessage.getMessageReceiver() +
-                                " : "+privateMessage.getMessageBody());
-                        connectionPool.broadcast(request);
-                        break;
-                    case LOGIN:
-                        nickname = (String) request.getObject();
-                        System.out.println(nickname + " connected.");
-                        connectionPool.addUser(nickname);
-                        connectionPool.getUserList();
-                        break;
-                } else {
+                if (!request.getType().equals(UserAction.DISCONNECT))
+                    switch (request.getType()) {
+                        case SEND:
+                            Message privateMessage = (Message) request.getObject();
+                            System.out.println(privateMessage.getMessageSender() +
+                                    " sends to " + privateMessage.getMessageReceiver() +
+                                    " : " + privateMessage.getMessageBody());
+                            connectionPool.broadcast(request);
+                            break;
+                        case LOGIN:
+                            nickname = (String) request.getObject();
+                            connectionPool.addUser(nickname);
+                            break;
+                        case USER_LIST:
+                            connectionPool.getUserList();
+                            break;
+                    }
+                else {
                     connectionPool.removeUser(nickname);
                     connectionPool.removeListener(UserAction.SEND.toString(), this::sendToClient);
                     connectionPool.removeListener(UserAction.RECEIVE_ALL.toString(), this::sendToClient);
                     connectionPool.removeListener(UserAction.RECEIVE.toString(), this::sendToClient);
                     connectionPool.removeListener(UserAction.USER_LIST.toString(), this::sendToClient);
                     System.out.println(nickname + " disconnected.");
-                    connectionPool.getUserList();
                     socket.close();
+                    if(!socket.isClosed())
+                    connectionPool.getUserList();
                     break;
                 }
+
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -78,8 +85,6 @@ public class SocketHandler implements Runnable {
     private void sendToClient(PropertyChangeEvent evt) {
         try {
             Request request = (Request) evt.getNewValue();
-            //ugly, i know, the only way i could check who to send the messages to on the server side, because
-            //i am using firePropertyChange
             switch (request.getType()) {
                 case RECEIVE_ALL:
                     Message message = (Message) request.getObject();
@@ -94,6 +99,17 @@ public class SocketHandler implements Runnable {
                 case USER_LIST:
                     outputStream.writeUnshared(request);
                     break;
+                case LOGIN_FAILED:
+                    if (nickname.equals(request.getObject()))
+                        outputStream.writeObject(request);
+                    nickname = "";
+                    break;
+                case LOGIN_SUCCESS:
+                    if (nickname != null && nickname.equals(request.getObject())) {
+                        outputStream.writeUnshared(request);
+                    } else {
+                        break;
+                    }
                 default:
                     outputStream.writeObject(request);
             }

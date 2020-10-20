@@ -45,6 +45,7 @@ public class MainViewModel implements Subject {
         this.chatSystem.addListener(UserAction.USER_LIST.toString(), this::createUserList);
 
         support = new PropertyChangeSupport(this);
+        System.out.println("Created view model");
     }
 
     private void createUserList(PropertyChangeEvent propertyChangeEvent) {
@@ -60,6 +61,10 @@ public class MainViewModel implements Subject {
 
     public StringProperty getSOURCE() {
         return SOURCE;
+    }
+
+    public void loadUsers() {
+        chatSystem.getUserList();
     }
 
     private void onReceiveMessage(PropertyChangeEvent propertyChangeEvent) {
@@ -85,10 +90,10 @@ public class MainViewModel implements Subject {
                 support.firePropertyChange(UserAction.TEXT.toString(), null, message);
                 addToLogs(message);
             } else {
-                //if neither is true, a notification will be sent
+                //if neither is true, a notification will be sent, along with the message
                 //the message will be logged to it's corresponding conversation
                 System.out.println("-- received notification");
-                support.firePropertyChange(UserAction.NOTIFICATION.toString(), null, null);
+                support.firePropertyChange(UserAction.NOTIFICATION.toString(), null, message);
                 addToLogs(message);
             }
     }
@@ -180,4 +185,6 @@ public class MainViewModel implements Subject {
     public StringProperty getNickname() {
         return nickname;
     }
+
+
 }

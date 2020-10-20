@@ -12,4 +12,6 @@ public interface ChatSystem extends Subject {
     void disconnect();
     void sendMessage(Message message);
     StringProperty getNickname();
+
+    void getUserList();
 }

@@ -9,8 +9,6 @@ public class Conversation {
     private String user1;
     private String user2;
 
-    //TODO have this keep messages so that i know how to add them in the view
-
     public Conversation(String user1,String user2){
         this.user1 = user1;
         this.user2 = user2;
