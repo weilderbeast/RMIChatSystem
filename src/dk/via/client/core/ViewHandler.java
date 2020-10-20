@@ -31,7 +31,7 @@ public class ViewHandler {
         switch (view) {
             case "Login": {
                 loader.setLocation(
-                        getClass().getResource("..\\view\\login\\LoginView.fxml")
+                        getClass().getResource("../view/login/LoginView.fxml")
                 );
                 root = loader.load();
                 LoginViewController loginViewController = loader.getController();
@@ -41,7 +41,7 @@ public class ViewHandler {
             }
             case "Main": {
                 loader.setLocation(
-                        getClass().getResource("..\\view\\main\\MainView.fxml")
+                        getClass().getResource("../view/main/MainView.fxml")
                 );
                 root = loader.load();
                 MainViewController mainViewController = loader.getController();
@@ -53,8 +53,8 @@ public class ViewHandler {
 
         scene = new Scene(root);
 
-        scene.getStylesheets().add(getClass().getResource("..\\view\\style\\style.css").toExternalForm());
-        Font.loadFont(getClass().getResourceAsStream("..\\view\\style\\fonts\\Roboto-Regular.ttf"), 16);
+        scene.getStylesheets().add(getClass().getResource("../view/style/style.css").toExternalForm());
+        Font.loadFont(getClass().getResourceAsStream("../view/style/fonts/Roboto-Regular.ttf"), 16);
         stage.setScene(scene);
         stage.show();
     }

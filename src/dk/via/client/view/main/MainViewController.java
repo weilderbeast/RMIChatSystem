@@ -75,7 +75,6 @@ public class MainViewController {
 
         viewModel.addListener(UserAction.TEXT.toString(), event -> updateChat((Message) event.getNewValue()));
         viewModel.addListener(UserAction.USER_LIST.toString(), event -> updateUsersList(event));
-        //viewModel.addListener(UserAction.TEXT.toString(), event -> createMessage(event));
         viewModel.addListener(UserAction.LOAD_LOGS.toString(), event -> loadChat(event));
         viewModel.addListener(UserAction.NOTIFICATION.toString(), event -> ping(event));
 
