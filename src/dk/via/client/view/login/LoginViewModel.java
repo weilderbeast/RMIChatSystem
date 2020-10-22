@@ -21,7 +21,7 @@ public class LoginViewModel implements Subject {
         this.chatSystem = chatSystem;
         nickname = new SimpleStringProperty();
         error = new SimpleStringProperty();
-        //error.setValue("");
+        error.setValue("");
         support = new PropertyChangeSupport(this);
         this.chatSystem.addListener(UserAction.LOGIN_FAILED.toString(), this::onLoginFail);
         this.chatSystem.addListener(UserAction.LOGIN_SUCCESS.toString(), this::onLoginOK);
@@ -34,7 +34,9 @@ public class LoginViewModel implements Subject {
     }
 
     private void onLoginFail(PropertyChangeEvent event) {
-        error.setValue("Username already taken.");
+        Platform.runLater(() ->{
+            error.setValue("Username already taken.");
+        });
         System.out.println("failed to login");
     }
 
@@ -50,6 +52,10 @@ public class LoginViewModel implements Subject {
         chatSystem.startClient(nickname.get());
     }
 
+    public void disconnect() {
+        chatSystem.disconnect();
+    }
+
     @Override
     public void addListener(String eventName, PropertyChangeListener listener) {
         support.addPropertyChangeListener(eventName, listener);
@@ -59,4 +65,6 @@ public class LoginViewModel implements Subject {
     public void removeListener(String eventName, PropertyChangeListener listener) {
         support.removePropertyChangeListener(eventName, listener);
     }
+
+
 }

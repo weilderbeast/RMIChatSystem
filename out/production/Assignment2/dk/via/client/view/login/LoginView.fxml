@@ -14,6 +14,7 @@
                 <Label layoutX="56.0" layoutY="264.0" styleClass="login-help-text" text="Choose your nickname and then click on the login button below." />
                 <Button layoutX="466.0" layoutY="410.0" mnemonicParsing="false" onAction="#Login" prefHeight="45.0" prefWidth="135.0" styleClass="login-button" text="Login" />
             <Label fx:id="errorLabel" layoutX="56.0" layoutY="314.0" styleClass="login-help-text" textFill="RED" />
+            <Button layoutX="56.0" layoutY="409.0" mnemonicParsing="false" onAction="#Disconnect" prefHeight="46.0" prefWidth="135.0" styleClass="login-button" text="Disconnect" />
             </children>
         </AnchorPane>
     </children>

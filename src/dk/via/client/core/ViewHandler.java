@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -55,7 +56,9 @@ public class ViewHandler {
 
         scene.getStylesheets().add(getClass().getResource("../view/style/style.css").toExternalForm());
         Font.loadFont(getClass().getResourceAsStream("../view/style/fonts/Roboto-Regular.ttf"), 16);
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
+
         stage.show();
     }
 }

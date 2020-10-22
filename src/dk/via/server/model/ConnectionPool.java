@@ -36,7 +36,6 @@ public class ConnectionPool implements Subject {
             userList.add(nickname);
             System.out.println(nickname + " connected.");
             support.firePropertyChange(UserAction.LOGIN_SUCCESS.toString(), null, new Request(UserAction.LOGIN_SUCCESS, nickname));
-            getUserList();
         }
         else
             support.firePropertyChange(UserAction.LOGIN_FAILED.toString(), null, new Request(UserAction.LOGIN_FAILED, nickname));

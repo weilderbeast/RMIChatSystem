@@ -108,6 +108,7 @@ public class SocketHandler implements Runnable {
                     if (nickname != null && nickname.equals(request.getObject())) {
                         outputStream.writeUnshared(request);
                     } else {
+                        connectionPool.getUserList();
                         break;
                     }
                 default:

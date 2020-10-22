@@ -51,7 +51,7 @@ public class MainViewModel implements Subject {
     private void createUserList(PropertyChangeEvent propertyChangeEvent) {
         Request request = (Request) propertyChangeEvent.getNewValue();
         ArrayList<String> users = (ArrayList<String>) request.getObject();
-        users.remove(nickname);
+        users.remove(nickname.getValue());
         support.firePropertyChange(UserAction.USER_LIST.toString(), null, users);
     }
 
@@ -169,7 +169,7 @@ public class MainViewModel implements Subject {
 
     public void disconnect() {
         chatSystem.disconnect();
-        System.exit(0);
+
     }
 
     @Override

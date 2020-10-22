@@ -28,10 +28,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainViewController {
@@ -98,22 +101,25 @@ public class MainViewController {
         viewModel.loadUsers();
     }
 
+    //ignore this, it was supposed to show the last message received from another client
+    //i'm working on it
     private void ping(PropertyChangeEvent event) {
         System.out.println("got a message from someone else");
         Message message = (Message) event.getNewValue();
-        Platform.runLater(() -> {
-            for(int i=0;i<connectedUsersVBox.getChildren().size();i++){
-                HBox hBox = (HBox)connectedUsersVBox.getChildren().get(i);
-                VBox vBox = (VBox)hBox.getChildren().get(0);
-                Label timeStamp = (Label)hBox.getChildren().get(1);
-                Label lastSent = (Label)vBox.getChildren().get(1);
-
-                Date date = new Date();
-                //TODO the last message sent and the timestamp
-                timeStamp.setText(date.getTimestamp());
-                //lastSent.set
-            }
-        });
+        playSound();
+//        Platform.runLater(() -> {
+//            for(int i=0;i<connectedUsersVBox.getChildren().size();i++){
+//                HBox hBox = (HBox)connectedUsersVBox.getChildren().get(i);
+//                VBox vBox = (VBox)hBox.getChildren().get(0);
+//                Label timeStamp = (Label)hBox.getChildren().get(1);
+//                Label lastSent = (Label)vBox.getChildren().get(1);
+//
+//                Date date = new Date();
+//
+//                timeStamp.setText(date.getTimestamp());
+//                //lastSent.set
+//            }
+//        });
     }
 
     private void loadChat(PropertyChangeEvent event) {
@@ -143,6 +149,7 @@ public class MainViewController {
     }
 
     public void updateChat(Message message) {
+        playSound();
         Platform.runLater(() -> {
             if (message.getMessageSender().equals(nickname.getValue()))
                 chatVBox.getChildren().add(createPersonalMessage(message));
@@ -155,6 +162,13 @@ public class MainViewController {
         });
     }
 
+    private void playSound() {
+        String path = "src\\dk\\via\\client\\view\\style\\notification.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+    }
+
     public void updateUsersList(PropertyChangeEvent event) {
         Platform.runLater(() -> {
             ArrayList<String> userList = (ArrayList<String>) event.getNewValue();
@@ -162,7 +176,7 @@ public class MainViewController {
             for (int i = 0; i < userList.size(); i++) {
                 int other_i = i;
                 HBox hBox = createUserListing(userList.get(i));
-                hBox.setStyle("-fx-background-color: #009687;-fx-padding: 5px;-fx-text-fill: white;-fx-cursor: hand");
+                hBox.setStyle("-fx-background-color: #009687;-fx-padding: 5px;-fx-text-fill: white !important;-fx-cursor: hand");
 
                 hBox.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
                     SOURCE.setValue(userList.get(other_i));
@@ -173,7 +187,7 @@ public class MainViewController {
 
                 connectedUsersVBox.getChildren().add(hBox);
             }
-            connectedUsersVBox.setStyle("-fx-text-fill: white");
+            connectedUsersVBox.setStyle("-fx-text-fill: white !important;");
         });
     }
 
@@ -238,10 +252,12 @@ public class MainViewController {
         Label lastSentText = new Label("");
         Label timeStamp = new Label("");
 
+        userName.setStyle("-fx-text-fill: white !important;");
+
         timeStamp.setAlignment(Pos.BASELINE_RIGHT);
 
         VBox vBox = new VBox(userName, lastSentText);
-        vBox.setStyle("-fx-padding: 10px");
+        vBox.setStyle("-fx-padding: 10px;-fx-text-fill: white !important;");
 
         HBox hBox = new HBox(vBox, timeStamp);
         hBox.setSpacing(1);

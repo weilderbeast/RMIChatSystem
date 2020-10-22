@@ -8,5 +8,4 @@ public interface Client extends Subject {
 
     void sendToServer(Request request);
 
-    void disconnect();
 }

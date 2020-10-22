@@ -36,6 +36,7 @@ public class ChatSystemManager implements ChatSystem {
         System.out.println("Created chatSystemManager");
     }
 
+    @Override
     public void startClient(String nickname) {
         client.sendToServer(new Request(UserAction.LOGIN, nickname));
         this.nickname.setValue(nickname);
@@ -63,7 +64,8 @@ public class ChatSystemManager implements ChatSystem {
 
     @Override
     public void disconnect() {
-        client.disconnect();
+        client.sendToServer(new Request(UserAction.DISCONNECT, null));
+        System.exit(0);
     }
 
     @Override

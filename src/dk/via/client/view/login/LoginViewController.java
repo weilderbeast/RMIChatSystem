@@ -26,7 +26,6 @@ public class LoginViewController {
         this.viewHandler = viewHandler;
         viewModel = loginViewModel;
         viewModel.addListener(UserAction.LOGIN_SUCCESS.toString(), this::openMain);
-        errorLabel = new Label();
         errorLabel.textProperty().bindBidirectional(viewModel.getError());
         textField.textProperty().bindBidirectional(viewModel.getNickname());
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -54,5 +53,9 @@ public class LoginViewController {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void Disconnect(){
+        viewModel.disconnect();
     }
 }

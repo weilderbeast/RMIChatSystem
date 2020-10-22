@@ -1,5 +1,6 @@
 package dk.via.client.network;
 
+import dk.via.shared.transfer.Message;
 import dk.via.shared.transfer.Request;
 import dk.via.shared.utils.UserAction;
 
@@ -40,7 +41,6 @@ public class SocketClient implements Client {
         try {
             while (true) {
                 Request request = (Request) inputStream.readObject();
-                System.out.println("received request " + request.getType());
                 support.firePropertyChange(request.getType().toString(), null, request);
             }
         } catch (IOException e) {
@@ -57,14 +57,6 @@ public class SocketClient implements Client {
         }
     }
 
-    @Override
-    public void disconnect() {
-        try {
-            sendToServer(new Request(UserAction.DISCONNECT, null));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void addListener(String eventName,
