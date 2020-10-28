@@ -13,6 +13,14 @@ public class ConnectionPool implements Subject {
     private final PropertyChangeSupport support;
     private final ArrayList<String> userList;
 
+
+    /*TODO implement your own propertyChangeListener,
+        have here an arrayList of listeners,
+        have the socket handler implement the interface,
+        have a "getUsername" method in the listener interface,
+        loop through the list when you want to send something,
+        implement methods in the listener for every action
+    * */
     public ConnectionPool() {
         support = new PropertyChangeSupport(this);
         userList = new ArrayList<>();
@@ -60,6 +68,4 @@ public class ConnectionPool implements Subject {
                                PropertyChangeListener listener) {
         support.removePropertyChangeListener(eventName, listener);
     }
-
-
 }

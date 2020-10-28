@@ -24,6 +24,7 @@ public class SocketClient implements Client {
         System.out.println("Created client.");
     }
 
+    //TODO change this so you only send the request.getObject(), it will take a while
     @Override
     public void startClient() {
         try {

@@ -45,6 +45,7 @@ public class SocketHandler implements Runnable {
     public void run() {
         while (true) {
             try {
+                //TODO how will this look? there should be one method for everything
                 Request request = (Request) inputStream.readObject();
                 if (!request.getType().equals(UserAction.DISCONNECT))
                     switch (request.getType()) {
@@ -84,6 +85,7 @@ public class SocketHandler implements Runnable {
 
     private void sendToClient(PropertyChangeEvent evt) {
         try {
+            //TODO remove these
             Request request = (Request) evt.getNewValue();
             switch (request.getType()) {
                 case RECEIVE_ALL:
