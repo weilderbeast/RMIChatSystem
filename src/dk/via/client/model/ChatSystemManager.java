@@ -28,7 +28,7 @@ public class ChatSystemManager implements ChatSystem {
 
         this.client.addListener(UserAction.RECEIVE_ALL.toString(), this::onReceiveRequest);
         this.client.addListener(UserAction.RECEIVE.toString(), this::onReceiveRequest);
-        this.client.addListener(UserAction.USER_LIST.toString(), this::onReceiveRequest);
+        this.client.addListener(UserAction.USER_LIST.toString(), this::onReceiveUserList);
         this.client.addListener(UserAction.LOGIN_SUCCESS.toString(), this::onReceiveRequest);
         this.client.addListener(UserAction.LOGIN_FAILED.toString(), this::onReceiveRequest);
         this.client.startClient();
@@ -36,20 +36,20 @@ public class ChatSystemManager implements ChatSystem {
         System.out.println("Created chatSystemManager");
     }
 
-    @Override
-    public void startClient(String nickname) {
-        client.sendToServer(new Request(UserAction.LOGIN, nickname));
-        this.nickname.setValue(nickname);
+    //do i really need this?
+    private void onReceiveUserList(PropertyChangeEvent propertyChangeEvent) {
+        userList = (ArrayList<String>) propertyChangeEvent.getNewValue();
+        support.firePropertyChange(propertyChangeEvent);
     }
 
     private void onReceiveRequest(PropertyChangeEvent propertyChangeEvent) {
-        Request request = (Request) propertyChangeEvent.getNewValue();
-        System.out.println(request.getType() + " event fired with " + request.getObject());
-
-        if(request.getType().equals(UserAction.USER_LIST)){
-            userList = (ArrayList<String>) request.getObject();
-        }
         support.firePropertyChange(propertyChangeEvent);
+    }
+
+    @Override
+    public void startClient(String nickname) {
+        client.login(nickname);
+        this.nickname.setValue(nickname);
     }
 
     @Override
@@ -59,18 +59,18 @@ public class ChatSystemManager implements ChatSystem {
 
     @Override
     public void getUserList() {
-        client.sendToServer(new Request(UserAction.USER_LIST, "nothing to see here move along"));
+        client.getUserList();
     }
 
     @Override
     public void disconnect() {
-        client.sendToServer(new Request(UserAction.DISCONNECT, null));
+        client.disconnect(nickname.getValue());
         System.exit(0);
     }
 
     @Override
     public void sendMessage(Message message) {
-        client.sendToServer(new Request(UserAction.SEND, message));
+        client.sendMessage(message);
     }
 
     @Override

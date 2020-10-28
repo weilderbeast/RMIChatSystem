@@ -1,21 +1,12 @@
 package dk.via.client.view.main;
 
-import com.sun.webkit.dom.KeyboardEventImpl;
 import dk.via.client.core.ViewHandler;
 import dk.via.shared.transfer.Message;
-import dk.via.shared.transfer.Request;
 import dk.via.shared.utils.Conversation;
-import dk.via.shared.utils.Date;
 import dk.via.shared.utils.UserAction;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -31,9 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import javax.swing.*;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -106,7 +95,9 @@ public class MainViewController {
     private void ping(PropertyChangeEvent event) {
         System.out.println("got a message from someone else");
         Message message = (Message) event.getNewValue();
-        playSound();
+        //playSound();
+
+
 //        Platform.runLater(() -> {
 //            for(int i=0;i<connectedUsersVBox.getChildren().size();i++){
 //                HBox hBox = (HBox)connectedUsersVBox.getChildren().get(i);

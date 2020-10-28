@@ -26,12 +26,11 @@ public class ConnectionPool implements Subject {
         userList = new ArrayList<>();
     }
 
-    public void broadcast(Request request) {
-        Message message = (Message) request.getObject();
+    public void broadcast(Message message) {
         if (message.getMessageReceiver().equals("General"))
-            support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL, request.getObject()));
+            support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL, message));
         else
-            support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE, request.getObject()));
+            support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE, message));
     }
 
     public void addUser(String nickname) {
@@ -53,8 +52,9 @@ public class ConnectionPool implements Subject {
         userList.remove(nickname);
     }
 
-    public void getUserList() {
+    public ArrayList<String> getUserList() {
         support.firePropertyChange(UserAction.USER_LIST.toString(), null, new Request(UserAction.USER_LIST, new ArrayList<>(userList)));
+        return null;
     }
 
     @Override
