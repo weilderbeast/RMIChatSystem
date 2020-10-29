@@ -27,10 +27,14 @@ public class ConnectionPool implements Subject {
     }
 
     public void broadcast(Message message) {
-        if (message.getMessageReceiver().equals("General"))
-            support.firePropertyChange(UserAction.RECEIVE_ALL.toString(), null, new Request(UserAction.RECEIVE_ALL, message));
-        else
-            support.firePropertyChange(UserAction.RECEIVE.toString(), null, new Request(UserAction.RECEIVE, message));
+        if (message.getMessageReceiver().equals("General")) {
+            for (String user : userList) {
+                if (!user.equals(message.getMessageSender())) {
+                    support.firePropertyChange(UserAction.RECEIVE_ALL.toString() + user, null, message);
+                }
+            }
+        } else
+            support.firePropertyChange(UserAction.RECEIVE.toString() + message.getMessageReceiver(), null, message);
     }
 
     public void addUser(String nickname) {
@@ -42,20 +46,26 @@ public class ConnectionPool implements Subject {
         if (!flag) {
             userList.add(nickname);
             System.out.println(nickname + " connected.");
-            support.firePropertyChange(UserAction.LOGIN_SUCCESS.toString(), null, new Request(UserAction.LOGIN_SUCCESS, nickname));
-        }
-        else
-            support.firePropertyChange(UserAction.LOGIN_FAILED.toString(), null, new Request(UserAction.LOGIN_FAILED, nickname));
+            support.firePropertyChange(UserAction.LOGIN.toString() + nickname, null, UserAction.LOGIN_SUCCESS);
+            getUserList();
+        } else
+            support.firePropertyChange(UserAction.LOGIN.toString() + nickname, null, UserAction.LOGIN_FAILED);
     }
 
     public void removeUser(String nickname) {
         userList.remove(nickname);
     }
 
-    public ArrayList<String> getUserList() {
-        support.firePropertyChange(UserAction.USER_LIST.toString(), null, new Request(UserAction.USER_LIST, new ArrayList<>(userList)));
-        return null;
+    public void getUserList(String nickname) {
+        support.firePropertyChange(UserAction.USER_LIST.toString() + nickname, null, new ArrayList<>(userList));
     }
+
+    public void getUserList() {
+        for (String user : userList) {
+            support.firePropertyChange(UserAction.USER_LIST.toString() + user, null, new ArrayList<>(userList));
+        }
+    }
+
 
     @Override
     public void addListener(String eventName,

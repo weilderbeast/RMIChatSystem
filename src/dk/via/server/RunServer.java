@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 public class RunServer {
     public static void main(String[] args) throws UnknownHostException, RemoteException, AlreadyBoundException {
         RMIServer server = new RMIServer(new ConnectionPool());
-        System.out.println("Started server on " + InetAddress.getLocalHost().getHostAddress());
         server.startServer();
+        System.out.println("started server");
     }
 }

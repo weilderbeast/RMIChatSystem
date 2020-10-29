@@ -1,20 +1,32 @@
 package dk.via.server.networking;
 
+
+import dk.via.client.network.Client;
 import dk.via.server.model.ConnectionPool;
+import dk.via.shared.networking.ClientInterface;
 import dk.via.shared.networking.ServerInterface;
 import dk.via.shared.transfer.Message;
+import dk.via.shared.utils.UserAction;
+import javafx.beans.property.Property;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class RMIServer implements ServerInterface {
 
     private final ConnectionPool connectionPool;
-    private String nickname;
+    private PropertyChangeListener loginListener;
+    private PropertyChangeListener broadcastListener;
+    private PropertyChangeListener userListListener;
 
     public RMIServer(ConnectionPool connectionPool) throws RemoteException {
         UnicastRemoteObject.exportObject(this, 0);
@@ -27,9 +39,43 @@ public class RMIServer implements ServerInterface {
     }
 
     @Override
+    public void registerClient(ClientInterface client, String nickname) throws RemoteException {
+        loginListener = (event) -> {
+            try {
+                client.loginResult((UserAction) event.getNewValue());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        };
+        broadcastListener = (event) -> {
+            try {
+                client.broadcast((Message) event.getNewValue());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        };
+        userListListener = (event) -> {
+            try {
+                client.userList((ArrayList<String>) event.getNewValue());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        };
+
+        connectionPool.addListener(UserAction.LOGIN.toString() + nickname, loginListener);
+        connectionPool.addListener(UserAction.RECEIVE_ALL.toString() + nickname, broadcastListener);
+        connectionPool.addListener(UserAction.USER_LIST.toString() + nickname, userListListener);
+        connectionPool.addListener(UserAction.RECEIVE.toString() + nickname, broadcastListener);
+    }
+
+    @Override
     public void login(String nickname) throws RemoteException {
         connectionPool.addUser(nickname);
-        this.nickname = nickname;
+    }
+
+    @Override
+    public void broadcast(Message message) throws RemoteException {
+        connectionPool.broadcast(message);
     }
 
     @Override
@@ -38,17 +84,8 @@ public class RMIServer implements ServerInterface {
     }
 
     @Override
-    public void sendMessage(Message message) throws RemoteException {
-        connectionPool.broadcast(message);
+    public void getUserList(String nickname) throws RemoteException {
+        connectionPool.getUserList(nickname);
     }
 
-    @Override
-    public ArrayList<String> getUserList() throws RemoteException {
-        return connectionPool.getUserList();
-    }
-
-    @Override
-    public Message getMessage() throws RemoteException {
-        return null;
-    }
 }
