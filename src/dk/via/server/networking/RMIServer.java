@@ -1,13 +1,10 @@
 package dk.via.server.networking;
 
-
-import dk.via.client.network.Client;
 import dk.via.server.model.ConnectionPool;
 import dk.via.shared.networking.ClientInterface;
 import dk.via.shared.networking.ServerInterface;
 import dk.via.shared.transfer.Message;
 import dk.via.shared.utils.UserAction;
-import javafx.beans.property.Property;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,9 +14,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 
 public class RMIServer implements ServerInterface {
 
@@ -44,21 +38,28 @@ public class RMIServer implements ServerInterface {
             try {
                 client.loginResult((UserAction) event.getNewValue());
             } catch (RemoteException e) {
-                e.printStackTrace();
+                connectionPool.removeListener(UserAction.LOGIN.toString() + nickname, loginListener);
             }
         };
-        broadcastListener = (event) -> {
-            try {
-                client.broadcast((Message) event.getNewValue());
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        broadcastListener = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent event) {
+                try {
+                    client.broadcast((Message) event.getNewValue());
+                } catch (RemoteException e) {
+                    connectionPool.removeListener(UserAction.RECEIVE.toString() + nickname, broadcastListener);
+                    connectionPool.removeListener(UserAction.RECEIVE_ALL.toString() + nickname, broadcastListener);}
             }
         };
-        userListListener = (event) -> {
-            try {
-                client.userList((ArrayList<String>) event.getNewValue());
-            } catch (RemoteException e) {
-                e.printStackTrace();
+
+        userListListener = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent event) {
+                try {
+                    client.userList((ArrayList<String>) event.getNewValue());
+                } catch (RemoteException e) {
+                    connectionPool.removeListener(UserAction.USER_LIST.toString() + nickname, userListListener);
+                }
             }
         };
 
